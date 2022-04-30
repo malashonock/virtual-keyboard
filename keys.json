@@ -1,0 +1,508 @@
+[
+  {
+    "en": {
+      "rowE": {
+        "Backquote": {
+          "cap": "`",
+          "shiftCap": "~"
+        },
+        "Digit1" : {
+          "cap": "1",
+          "shiftCap": "!"
+        },
+        "Digit2" : {
+          "cap": "2",
+          "shiftCap": "@"
+        },
+        "Digit3" : {
+          "cap": "3",
+          "shiftCap": "#"
+        },
+        "Digit4" : {
+          "cap": "4",
+          "shiftCap": "$"
+        },
+        "Digit5" : {
+          "cap": "5",
+          "shiftCap": "%"
+        },
+        "Digit6" : {
+          "cap": "6",
+          "shiftCap": "^"
+        },
+        "Digit7" : {
+          "cap": "7",
+          "shiftCap": "&"
+        },
+        "Digit8" : {
+          "cap": "8",
+          "shiftCap": "*"
+        },
+        "Digit9" : {
+          "cap": "9",
+          "shiftCap": "("
+        },
+        "Digit0" : {
+          "cap": "0",
+          "shiftCap": ")"
+        },
+        "Minus" : {
+          "cap": "-",
+          "shiftCap": "_"
+        },
+        "Equal" : {
+          "cap": "=",
+          "shiftCap": "+"
+        },
+        "Backspace" : {
+          "cap": "Backspace"
+        }
+      },
+      "rowD": {
+        "Tab": {
+          "cap": "Tab"
+        },
+        "KeyQ": {
+          "cap": "q",
+          "shiftCap": "Q"
+        },
+        "KeyW": {
+          "cap": "w",
+          "shiftCap": "W"
+        },
+        "KeyE": {
+          "cap": "e",
+          "shiftCap": "E"
+        },
+        "KeyR": {
+          "cap": "r",
+          "shiftCap": "R"
+        },
+        "KeyT": {
+          "cap": "t",
+          "shiftCap": "T"
+        },
+        "KeyY": {
+          "cap": "y",
+          "shiftCap": "Y"
+        },
+        "KeyU": {
+          "cap": "u",
+          "shiftCap": "U"
+        },
+        "KeyI": {
+          "cap": "i",
+          "shiftCap": "I"
+        },
+        "KeyO": {
+          "cap": "o",
+          "shiftCap": "O"
+        },
+        "KeyP": {
+          "cap": "p",
+          "shiftCap": "P"
+        },
+        "BracketLeft": {
+          "cap": "[",
+          "shiftCap": "{"
+        },
+        "BracketRight": {
+          "cap": "]",
+          "shiftCap": "}"
+        },
+        "Backslash": {
+          "cap": "\\",
+          "shiftCap": "|"
+        },
+        "Delete": {
+          "cap": "Del"
+        }
+      },
+      "rowC": {
+        "CapsLock": {
+          "cap": "Caps Lock"
+        },
+        "KeyA": {
+          "cap": "a",
+          "shiftCap": "A"
+        },
+        "KeyS": {
+          "cap": "s",
+          "shiftCap": "S"
+        },
+        "KeyD": {
+          "cap": "d",
+          "shiftCap": "D"
+        },
+        "KeyF": {
+          "cap": "f",
+          "shiftCap": "F"
+        },
+        "KeyG": {
+          "cap": "g",
+          "shiftCap": "G"
+        },
+        "KeyH": {
+          "cap": "h",
+          "shiftCap": "H"
+        },
+        "KeyJ": {
+          "cap": "j",
+          "shiftCap": "J"
+        },
+        "KeyK": {
+          "cap": "k",
+          "shiftCap": "K"
+        },
+        "KeyL": {
+          "cap": "l",
+          "shiftCap": "L"
+        },
+        "Semicolon": {
+          "cap": ";",
+          "shiftCap": ":"
+        },
+        "Quote": {
+          "cap": "'",
+          "shiftCap": "\""
+        },
+        "Enter": {
+          "cap": "Enter"
+        }
+      },
+      "rowB": {
+        "ShiftLeft": {
+          "cap": "Shift"
+        },
+        "KeyZ": {
+          "cap": "z",
+          "shiftCap": "Z"
+        },
+        "KeyX": {
+          "cap": "x",
+          "shiftCap": "X"
+        },
+        "KeyC": {
+          "cap": "c",
+          "shiftCap": "C"
+        },
+        "KeyV": {
+          "cap": "v",
+          "shiftCap": "V"
+        },
+        "KeyB": {
+          "cap": "b",
+          "shiftCap": "B"
+        },
+        "KeyN": {
+          "cap": "n",
+          "shiftCap": "N"
+        },
+        "KeyM": {
+          "cap": "m",
+          "shiftCap": "M"
+        },
+        "Comma": {
+          "cap": ",",
+          "shiftCap": "<"
+        },
+        "Period": {
+          "cap": ".",
+          "shiftCap": ">"
+        },
+        "Slash": {
+          "cap": "/",
+          "shiftCap": "?"
+        },
+        "ArrowUp": {
+          "cap": "▲"
+        },
+        "ShiftRight": {
+          "cap": "Shift"
+        }
+      },
+      "rowA": {
+        "ControlLeft": {
+          "cap": "Ctrl"
+        },
+        "MetaLeft": {
+          "cap": "Win"
+        },
+        "AltLeft": {
+          "cap": "Alt"
+        },
+        "Space": {
+          "cap": ""
+        },
+        "AltRight": {
+          "cap": "Alt"
+        },
+        "ControlRight": {
+          "cap": "Ctrl"
+        },
+        "ArrowLeft": {
+          "cap": "◄"
+        },
+        "ArrowDown": {
+          "cap": "▼"
+        },
+        "ArrowRight": {
+          "cap": "►"
+        }
+      }
+    }
+  },
+  {
+    "ru": {
+      "rowE": {
+        "Backquote": {
+          "cap": "ё",
+          "shiftCap": "Ё"
+        },
+        "Digit1" : {
+          "cap": "1",
+          "shiftCap": "!"
+        },
+        "Digit2" : {
+          "cap": "2",
+          "shiftCap": "\""
+        },
+        "Digit3" : {
+          "cap": "3",
+          "shiftCap": "№"
+        },
+        "Digit4" : {
+          "cap": "4",
+          "shiftCap": ";"
+        },
+        "Digit5" : {
+          "cap": "5",
+          "shiftCap": "%"
+        },
+        "Digit6" : {
+          "cap": "6",
+          "shiftCap": ":"
+        },
+        "Digit7" : {
+          "cap": "7",
+          "shiftCap": "?"
+        },
+        "Digit8" : {
+          "cap": "8",
+          "shiftCap": "*"
+        },
+        "Digit9" : {
+          "cap": "9",
+          "shiftCap": "("
+        },
+        "Digit0" : {
+          "cap": "0",
+          "shiftCap": ")"
+        },
+        "Minus" : {
+          "cap": "-",
+          "shiftCap": "_"
+        },
+        "Equal" : {
+          "cap": "=",
+          "shiftCap": "+"
+        },
+        "Backspace" : {
+          "cap": "Backspace"
+        }
+      },
+      "rowD": {
+        "Tab": {
+          "cap": "Tab"
+        },
+        "KeyQ": {
+          "cap": "й",
+          "shiftCap": "Й"
+        },
+        "KeyW": {
+          "cap": "ц",
+          "shiftCap": "Ц"
+        },
+        "KeyE": {
+          "cap": "у",
+          "shiftCap": "У"
+        },
+        "KeyR": {
+          "cap": "к",
+          "shiftCap": "К"
+        },
+        "KeyT": {
+          "cap": "е",
+          "shiftCap": "Е"
+        },
+        "KeyY": {
+          "cap": "н",
+          "shiftCap": "Н"
+        },
+        "KeyU": {
+          "cap": "г",
+          "shiftCap": "Г"
+        },
+        "KeyI": {
+          "cap": "ш",
+          "shiftCap": "Ш"
+        },
+        "KeyO": {
+          "cap": "щ",
+          "shiftCap": "Щ"
+        },
+        "KeyP": {
+          "cap": "з",
+          "shiftCap": "З"
+        },
+        "BracketLeft": {
+          "cap": "х",
+          "shiftCap": "Х"
+        },
+        "BracketRight": {
+          "cap": "ъ",
+          "shiftCap": "Ъ"
+        },
+        "Backslash": {
+          "cap": "\\",
+          "shiftCap": "/"
+        },
+        "Delete": {
+          "cap": "Del"
+        }
+      },
+      "rowC": {
+        "CapsLock": {
+          "cap": "Caps Lock"
+        },
+        "KeyA": {
+          "cap": "ф",
+          "shiftCap": "Ф"
+        },
+        "KeyS": {
+          "cap": "ы",
+          "shiftCap": "Ы"
+        },
+        "KeyD": {
+          "cap": "в",
+          "shiftCap": "В"
+        },
+        "KeyF": {
+          "cap": "а",
+          "shiftCap": "А"
+        },
+        "KeyG": {
+          "cap": "п",
+          "shiftCap": "П"
+        },
+        "KeyH": {
+          "cap": "р",
+          "shiftCap": "Р"
+        },
+        "KeyJ": {
+          "cap": "о",
+          "shiftCap": "О"
+        },
+        "KeyK": {
+          "cap": "л",
+          "shiftCap": "Л"
+        },
+        "KeyL": {
+          "cap": "д",
+          "shiftCap": "Д"
+        },
+        "Semicolon": {
+          "cap": "ж",
+          "shiftCap": "Ж"
+        },
+        "Quote": {
+          "cap": "э",
+          "shiftCap": "Э"
+        },
+        "Enter": {
+          "cap": "Enter"
+        }
+      },
+      "rowB": {
+        "ShiftLeft": {
+          "cap": "Shift"
+        },
+        "KeyZ": {
+          "cap": "я",
+          "shiftCap": "Я"
+        },
+        "KeyX": {
+          "cap": "ч",
+          "shiftCap": "Ч"
+        },
+        "KeyC": {
+          "cap": "с",
+          "shiftCap": "С"
+        },
+        "KeyV": {
+          "cap": "м",
+          "shiftCap": "М"
+        },
+        "KeyB": {
+          "cap": "и",
+          "shiftCap": "И"
+        },
+        "KeyN": {
+          "cap": "т",
+          "shiftCap": "Т"
+        },
+        "KeyM": {
+          "cap": "ь",
+          "shiftCap": "Ь"
+        },
+        "Comma": {
+          "cap": "б",
+          "shiftCap": "Б"
+        },
+        "Period": {
+          "cap": "ю",
+          "shiftCap": "Ю"
+        },
+        "Slash": {
+          "cap": ".",
+          "shiftCap": ","
+        },
+        "ArrowUp": {
+          "cap": "▲"
+        },
+        "ShiftRight": {
+          "cap": "Shift"
+        }
+      },
+      "rowA": {
+        "ControlLeft": {
+          "cap": "Ctrl"
+        },
+        "MetaLeft": {
+          "cap": "Win"
+        },
+        "AltLeft": {
+          "cap": "Alt"
+        },
+        "Space": {
+          "cap": ""
+        },
+        "AltRight": {
+          "cap": "Alt"
+        },
+        "ControlRight": {
+          "cap": "Ctrl"
+        },
+        "ArrowLeft": {
+          "cap": "◄"
+        },
+        "ArrowDown": {
+          "cap": "▼"
+        },
+        "ArrowRight": {
+          "cap": "►"
+        }
+      }
+    }
+  }
+]
