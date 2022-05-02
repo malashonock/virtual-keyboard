@@ -1,5 +1,5 @@
-import { Component } from "./_utilities.mjs";
-import { Keyboard } from "./_keyboard.mjs";
+import { Component } from "./utilities.mjs";
+import { Keyboard } from "./keyboard.mjs";
 
 export const container = new Component({
   classList: ["container"],

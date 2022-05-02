@@ -1,4 +1,4 @@
-import { Component } from "./_utilities.mjs";
+import { Component } from "./utilities.mjs";
 
 export class Key extends EventTarget {
   element = null;

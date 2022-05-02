@@ -1,6 +1,6 @@
-import { Component } from "./_utilities.mjs";
-import { loadJsonAsync } from "./_loadJsonAsync.mjs";
-import { Key } from "./_key.mjs";
+import { Component } from "./utilities.mjs";
+import { loadJsonAsync } from "./loadJsonAsync.mjs";
+import { Key } from "./key.mjs";
 
 export class Keyboard extends EventTarget {
   element = null;
