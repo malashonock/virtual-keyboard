@@ -76,7 +76,7 @@ export class Keyboard extends EventTarget {
       const rowKeys = row.map(
         (key) =>
           new Key(this, {
-            key: key.code,
+            code: key.code,
             cap: key.cap,
             capsCap: key.capsCap,
             shiftCap: key.shiftCap,
