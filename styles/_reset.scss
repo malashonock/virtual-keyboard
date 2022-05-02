@@ -1,0 +1,28 @@
+@use "normalize.css";
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 10px;
+}
+
+body {
+  font-size: 1.6rem;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+p {
+  margin: 0;
+}
+
+.button {
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 1.337vw;
+  }
+}
