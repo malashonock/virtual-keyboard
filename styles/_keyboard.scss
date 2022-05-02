@@ -45,11 +45,13 @@
     font-weight: 500;
 
     &:hover,
-    &:active {
+    &:active,
+    &.clicked {
       --key-color: #{$blue};
     }
 
-    &:active {
+    &:active,
+    &.clicked {
       transform: scale(0.9);
     }
   }

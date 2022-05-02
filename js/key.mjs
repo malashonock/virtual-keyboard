@@ -76,5 +76,15 @@ export class Key extends EventTarget {
     this.parent.addEventListener("capsLockChanged", (event) => {
       this.capsLockOn = event.detail.capsLockOn;
     });
+
+    this.element.addEventListener("mousedown", (event) => {
+      this.element.classList.add("clicked");
+    });
+
+    this.element.addEventListener("mouseup", (event) => {
+      if (!(this.code === "CapsLock" && this.capsLockOn)) {
+        this.element.classList.remove("clicked");
+      }
+    });
   }
 }

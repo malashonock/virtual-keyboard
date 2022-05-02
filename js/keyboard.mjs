@@ -91,6 +91,10 @@ export class Keyboard extends EventTarget {
 
   addEventListeners() {
     document.addEventListener("keydown", (event) => {
+      if (!event.code.match(/F\d{1,2}/)) {
+        event.preventDefault();
+      }
+
       if (event.shiftKey && event.altKey) {
         this.language = this.language === "en" ? "ru" : "en";
 
@@ -109,19 +113,25 @@ export class Keyboard extends EventTarget {
         this.shiftPressed = true;
       }
 
-      switch (event.key) {
+      switch (event.code) {
         case "CapsLock":
           this.capsLockOn = !this.capsLockOn;
           break;
         default:
           break;
       }
+
+      const key = this.element.querySelector(`#${event.code}`);
+      key?.dispatchEvent(new MouseEvent("mousedown"));
     });
 
     document.addEventListener("keyup", (event) => {
       if (this.shiftPressed && !event.shiftKey) {
         this.shiftPressed = false;
       }
+
+      const key = this.element.querySelector(`#${event.code}`);
+      key?.dispatchEvent(new MouseEvent("mouseup"));
     });
   }
 }

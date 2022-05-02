@@ -137,7 +137,7 @@
         "shiftCap": "}"
       },
       {
-        "code": "BackSlash",
+        "code": "Backslash",
         "cap": "\\",
         "shiftCap": "|"
       },
@@ -452,7 +452,7 @@
         "capsCap": "Ъ"
       },
       {
-        "code": "BackSlash",
+        "code": "Backslash",
         "cap": "\\",
         "shiftCap": "/"
       },
