@@ -2,6 +2,7 @@ import { Component } from "./_utilities.mjs";
 
 export class Key extends EventTarget {
   element = null;
+  shiftPressed = false;
 
   constructor(parent, props) {
     super();
@@ -17,15 +18,29 @@ export class Key extends EventTarget {
   }
 
   render() {
-    this.element = new Component({
-      tag: "button",
-      id: this.code,
-      classList: ["button", "keyboard__key"],
-      attributes: [{ name: "type", value: "button" }],
-      innerHTML: this.cap,
-      parent: this.parent,
-    });
+    if (this.element) {
+      this.element.innerHTML = this.shiftPressed ? this.shiftCap : this.cap;
+    } else {
+      this.element = new Component({
+        tag: "button",
+        id: this.code,
+        classList: ["button", "keyboard__key"],
+        attributes: [{ name: "type", value: "button" }],
+        innerHTML: this.shiftPressed ? this.shiftCap : this.cap,
+        parent: this.parent.element,
+      });
+    }
   }
 
-  addEventListeners() {}
+  addEventListeners() {
+    this.parent.addEventListener("shiftPressed", (event) => {
+      this.shiftPressed = event.detail.shiftPressed;
+      this.render();
+    });
+
+    this.parent.addEventListener("shiftReleased", (event) => {
+      this.shiftPressed = event.detail.shiftPressed;
+      this.render();
+    });
+  }
 }

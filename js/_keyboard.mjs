@@ -4,6 +4,8 @@ import { Key } from "./_key.mjs";
 
 export class Keyboard extends EventTarget {
   element = null;
+  layout = [];
+  shiftPressed = false;
 
   constructor(parent) {
     super();
@@ -11,21 +13,24 @@ export class Keyboard extends EventTarget {
     this.language = localStorage.getItem("keyboardLanguage") || "en";
     this.parent = parent || document.body;
 
-    this.render();
-
-    this.addEventListeners();
+    this.loadLayout()
+      .then(() => this.render())
+      .then(() => this.addEventListeners());
   }
 
-  async render() {
+  async loadLayout() {
+    const keyboardLayouts = await loadJsonAsync("keys.json");
+    this.layout = [...keyboardLayouts[this.language]];
+  }
+
+  render() {
     this.element = new Component({
       classList: ["keyboard"],
       parent: this.parent,
+      insertMethod: "replace",
     });
 
-    const keyboardLayouts = await loadJsonAsync("keys.json");
-    const keyboardLayout = keyboardLayouts[this.language];
-
-    for (const row of keyboardLayout) {
+    for (const row of this.layout) {
       const rowWrapper = new Component({
         classList: ["keyboard__row"],
         parent: this.element,
@@ -33,7 +38,7 @@ export class Keyboard extends EventTarget {
 
       const rowKeys = row.map(
         (key) =>
-          new Key(this.element, {
+          new Key(this, {
             key: key.code,
             cap: key.cap,
             shiftCap: key.shiftCap,
@@ -56,6 +61,34 @@ export class Keyboard extends EventTarget {
         this.dispatchEvent(
           new CustomEvent("keyboardLanguageChanged", {
             detail: this.language,
+          })
+        );
+
+        this.loadLayout().then(() => this.render());
+      }
+
+      if (event.shiftKey) {
+        this.shiftPressed = true;
+
+        this.dispatchEvent(
+          new CustomEvent("shiftPressed", {
+            detail: {
+              shiftPressed: this.shiftPressed,
+            },
+          })
+        );
+      }
+    });
+
+    document.addEventListener("keyup", (event) => {
+      if (this.shiftPressed && !event.shiftKey) {
+        this.shiftPressed = false;
+
+        this.dispatchEvent(
+          new CustomEvent("shiftReleased", {
+            detail: {
+              shiftPressed: this.shiftPressed,
+            },
           })
         );
       }

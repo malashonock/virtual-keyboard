@@ -318,8 +318,8 @@
     [
       {
         "code": "Backquote",
-        "cap": "`",
-        "shiftCap": "~"
+        "cap": "ё",
+        "shiftCap": "Ё"
       },
       {
         "code": "Digit1",

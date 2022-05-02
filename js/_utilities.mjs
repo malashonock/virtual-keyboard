@@ -23,6 +23,9 @@ export function Component(props) {
     case "prepend":
       parent.prepend(element);
       break;
+    case "replace":
+      parent.replaceChildren(element);
+      break;
     default:
       throw Error("Insertion method not recognized.");
   }
