@@ -5,7 +5,8 @@ import { Key } from "./key.mjs";
 export class Keyboard extends EventTarget {
   element = null;
   layout = [];
-  shiftPressed = false;
+  #shiftPressed = false;
+  #capsLockOn = false;
 
   constructor(parent) {
     super();
@@ -16,6 +17,42 @@ export class Keyboard extends EventTarget {
     this.loadLayout()
       .then(() => this.render())
       .then(() => this.addEventListeners());
+  }
+
+  get capsLockOn() {
+    return this.#capsLockOn;
+  }
+
+  set capsLockOn(value) {
+    if (this.#capsLockOn !== value) {
+      this.#capsLockOn = value;
+
+      this.dispatchEvent(
+        new CustomEvent("capsLockChanged", {
+          detail: {
+            capsLockOn: this.#capsLockOn,
+          },
+        })
+      );
+    }
+  }
+
+  get shiftPressed() {
+    return this.#shiftPressed;
+  }
+
+  set shiftPressed(value) {
+    if (this.#shiftPressed !== value) {
+      this.#shiftPressed = value;
+
+      this.dispatchEvent(
+        new CustomEvent("shiftChanged", {
+          detail: {
+            shiftPressed: this.#shiftPressed,
+          },
+        })
+      );
+    }
   }
 
   async loadLayout() {
@@ -41,6 +78,7 @@ export class Keyboard extends EventTarget {
           new Key(this, {
             key: key.code,
             cap: key.cap,
+            capsCap: key.capsCap,
             shiftCap: key.shiftCap,
           })
       );
@@ -69,28 +107,20 @@ export class Keyboard extends EventTarget {
 
       if (event.shiftKey) {
         this.shiftPressed = true;
+      }
 
-        this.dispatchEvent(
-          new CustomEvent("shiftPressed", {
-            detail: {
-              shiftPressed: this.shiftPressed,
-            },
-          })
-        );
+      switch (event.key) {
+        case "CapsLock":
+          this.capsLockOn = !this.capsLockOn;
+          break;
+        default:
+          break;
       }
     });
 
     document.addEventListener("keyup", (event) => {
       if (this.shiftPressed && !event.shiftKey) {
         this.shiftPressed = false;
-
-        this.dispatchEvent(
-          new CustomEvent("shiftReleased", {
-            detail: {
-              shiftPressed: this.shiftPressed,
-            },
-          })
-        );
       }
     });
   }

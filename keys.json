@@ -79,52 +79,52 @@
       {
         "code": "KeyQ",
         "cap": "q",
-        "shiftCap": "Q"
+        "capsCap": "Q"
       },
       {
         "code": "KeyW",
         "cap": "w",
-        "shiftCap": "W"
+        "capsCap": "W"
       },
       {
         "code": "KeyE",
         "cap": "e",
-        "shiftCap": "E"
+        "capsCap": "E"
       },
       {
         "code": "KeyR",
         "cap": "r",
-        "shiftCap": "R"
+        "capsCap": "R"
       },
       {
         "code": "KeyT",
         "cap": "t",
-        "shiftCap": "T"
+        "capsCap": "T"
       },
       {
         "code": "KeyY",
         "cap": "y",
-        "shiftCap": "Y"
+        "capsCap": "Y"
       },
       {
         "code": "KeyU",
         "cap": "u",
-        "shiftCap": "U"
+        "capsCap": "U"
       },
       {
         "code": "KeyI",
         "cap": "i",
-        "shiftCap": "I"
+        "capsCap": "I"
       },
       {
         "code": "KeyO",
         "cap": "o",
-        "shiftCap": "O"
+        "capsCap": "O"
       },
       {
         "code": "KeyP",
         "cap": "p",
-        "shiftCap": "P"
+        "capsCap": "P"
       },
       {
         "code": "BracketLeft",
@@ -154,47 +154,47 @@
       {
         "code": "KeyA",
         "cap": "a",
-        "shiftCap": "A"
+        "capsCap": "A"
       },
       {
         "code": "KeyS",
         "cap": "s",
-        "shiftCap": "S"
+        "capsCap": "S"
       },
       {
         "code": "KeyD",
         "cap": "d",
-        "shiftCap": "D"
+        "capsCap": "D"
       },
       {
         "code": "KeyF",
         "cap": "f",
-        "shiftCap": "F"
+        "capsCap": "F"
       },
       {
         "code": "KeyG",
         "cap": "g",
-        "shiftCap": "G"
+        "capsCap": "G"
       },
       {
         "code": "KeyH",
         "cap": "h",
-        "shiftCap": "H"
+        "capsCap": "H"
       },
       {
         "code": "KeyJ",
         "cap": "j",
-        "shiftCap": "J"
+        "capsCap": "J"
       },
       {
         "code": "KeyK",
         "cap": "k",
-        "shiftCap": "K"
+        "capsCap": "K"
       },
       {
         "code": "KeyL",
         "cap": "l",
-        "shiftCap": "L"
+        "capsCap": "L"
       },
       {
         "code": "Semicolon",
@@ -219,37 +219,37 @@
       {
         "code": "KeyZ",
         "cap": "z",
-        "shiftCap": "Z"
+        "capsCap": "Z"
       },
       {
         "code": "KeyX",
         "cap": "x",
-        "shiftCap": "X"
+        "capsCap": "X"
       },
       {
         "code": "KeyC",
         "cap": "c",
-        "shiftCap": "C"
+        "capsCap": "C"
       },
       {
         "code": "KeyV",
         "cap": "v",
-        "shiftCap": "V"
+        "capsCap": "V"
       },
       {
         "code": "KeyB",
         "cap": "b",
-        "shiftCap": "B"
+        "capsCap": "B"
       },
       {
         "code": "KeyN",
         "cap": "n",
-        "shiftCap": "N"
+        "capsCap": "N"
       },
       {
         "code": "KeyM",
         "cap": "m",
-        "shiftCap": "M"
+        "capsCap": "M"
       },
       {
         "code": "Comma",
@@ -319,7 +319,7 @@
       {
         "code": "Backquote",
         "cap": "ё",
-        "shiftCap": "Ё"
+        "capsCap": "Ё"
       },
       {
         "code": "Digit1",
@@ -394,62 +394,62 @@
       {
         "code": "KeyQ",
         "cap": "й",
-        "shiftCap": "Й"
+        "capsCap": "Й"
       },
       {
         "code": "KeyW",
         "cap": "ц",
-        "shiftCap": "Ц"
+        "capsCap": "Ц"
       },
       {
         "code": "KeyE",
         "cap": "у",
-        "shiftCap": "У"
+        "capsCap": "У"
       },
       {
         "code": "KeyR",
         "cap": "к",
-        "shiftCap": "К"
+        "capsCap": "К"
       },
       {
         "code": "KeyT",
         "cap": "е",
-        "shiftCap": "Е"
+        "capsCap": "Е"
       },
       {
         "code": "KeyY",
         "cap": "н",
-        "shiftCap": "Н"
+        "capsCap": "Н"
       },
       {
         "code": "KeyU",
         "cap": "г",
-        "shiftCap": "Г"
+        "capsCap": "Г"
       },
       {
         "code": "KeyI",
         "cap": "ш",
-        "shiftCap": "Ш"
+        "capsCap": "Ш"
       },
       {
         "code": "KeyO",
         "cap": "щ",
-        "shiftCap": "Щ"
+        "capsCap": "Щ"
       },
       {
         "code": "KeyP",
         "cap": "з",
-        "shiftCap": "З"
+        "capsCap": "З"
       },
       {
         "code": "BracketLeft",
         "cap": "х",
-        "shiftCap": "Х"
+        "capsCap": "Х"
       },
       {
         "code": "BracketRight",
         "cap": "ъ",
-        "shiftCap": "Ъ"
+        "capsCap": "Ъ"
       },
       {
         "code": "BackSlash",
@@ -469,57 +469,57 @@
       {
         "code": "KeyA",
         "cap": "ф",
-        "shiftCap": "Ф"
+        "capsCap": "Ф"
       },
       {
         "code": "KeyS",
         "cap": "ы",
-        "shiftCap": "Ы"
+        "capsCap": "Ы"
       },
       {
         "code": "KeyD",
         "cap": "в",
-        "shiftCap": "В"
+        "capsCap": "В"
       },
       {
         "code": "KeyF",
         "cap": "а",
-        "shiftCap": "А"
+        "capsCap": "А"
       },
       {
         "code": "KeyG",
         "cap": "п",
-        "shiftCap": "П"
+        "capsCap": "П"
       },
       {
         "code": "KeyH",
         "cap": "р",
-        "shiftCap": "Р"
+        "capsCap": "Р"
       },
       {
         "code": "KeyJ",
         "cap": "о",
-        "shiftCap": "О"
+        "capsCap": "О"
       },
       {
         "code": "KeyK",
         "cap": "л",
-        "shiftCap": "Л"
+        "capsCap": "Л"
       },
       {
         "code": "KeyL",
         "cap": "д",
-        "shiftCap": "Д"
+        "capsCap": "Д"
       },
       {
         "code": "Semicolon",
         "cap": "ж",
-        "shiftCap": "Ж"
+        "capsCap": "Ж"
       },
       {
         "code": "Quote",
         "cap": "э",
-        "shiftCap": "Э"
+        "capsCap": "Э"
       },
       {
         "code": "Enter",
@@ -534,47 +534,47 @@
       {
         "code": "KeyZ",
         "cap": "я",
-        "shiftCap": "Я"
+        "capsCap": "Я"
       },
       {
         "code": "KeyX",
         "cap": "ч",
-        "shiftCap": "Ч"
+        "capsCap": "Ч"
       },
       {
         "code": "KeyC",
         "cap": "с",
-        "shiftCap": "С"
+        "capsCap": "С"
       },
       {
         "code": "KeyV",
         "cap": "м",
-        "shiftCap": "М"
+        "capsCap": "М"
       },
       {
         "code": "KeyB",
         "cap": "и",
-        "shiftCap": "И"
+        "capsCap": "И"
       },
       {
         "code": "KeyN",
         "cap": "т",
-        "shiftCap": "Т"
+        "capsCap": "Т"
       },
       {
         "code": "KeyM",
         "cap": "ь",
-        "shiftCap": "Ь"
+        "capsCap": "Ь"
       },
       {
         "code": "Comma",
         "cap": "б",
-        "shiftCap": "Б"
+        "capsCap": "Б"
       },
       {
         "code": "Period",
         "cap": "ю",
-        "shiftCap": "Ю"
+        "capsCap": "Ю"
       },
       {
         "code": "Slash",
