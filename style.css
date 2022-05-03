@@ -355,8 +355,12 @@ p {
   margin: 0;
 }
 
-.button {
+textarea,
+button {
   outline: none;
+}
+
+.button {
   cursor: pointer;
 }
 

@@ -113,14 +113,6 @@ export class Keyboard extends EventTarget {
         this.shiftPressed = true;
       }
 
-      switch (event.code) {
-        case "CapsLock":
-          this.capsLockOn = !this.capsLockOn;
-          break;
-        default:
-          break;
-      }
-
       const key = this.element.querySelector(`#${event.code}`);
       key?.dispatchEvent(new MouseEvent("mousedown"));
     });
@@ -130,8 +122,38 @@ export class Keyboard extends EventTarget {
         this.shiftPressed = false;
       }
 
+      switch (event.code) {
+        case "CapsLock":
+          this.capsLockOn = !this.capsLockOn;
+          break;
+
+        default:
+          break;
+      }
+
       const key = this.element.querySelector(`#${event.code}`);
       key?.dispatchEvent(new MouseEvent("mouseup"));
+    });
+
+    document.addEventListener("mousedown", (event) => {
+      if (event.target.id.match(/Shift/)) {
+        this.shiftPressed = true;
+      }
+    });
+
+    document.addEventListener("mouseup", (event) => {
+      if (this.shiftPressed && event.target.id.match(/Shift/)) {
+        this.shiftPressed = false;
+      }
+
+      switch (event.target.id) {
+        case "CapsLock":
+          this.capsLockOn = !this.capsLockOn;
+          break;
+
+        default:
+          break;
+      }
     });
   }
 }

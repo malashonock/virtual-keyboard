@@ -79,6 +79,63 @@ export class Key extends EventTarget {
 
     this.element.addEventListener("mousedown", (event) => {
       this.element.classList.add("clicked");
+
+      const textarea = document.querySelector(".textarea");
+      textarea.focus();
+
+      switch (this.code) {
+        case "Backspace":
+          textarea.value = textarea.value.slice(0, -1);
+          break;
+
+        case "Tab":
+          textarea.value += "\t";
+          break;
+        
+        case "Enter":
+          textarea.value += "\n";
+          break;
+
+        case "Delete":
+          const start = textarea.selectionStart;
+          const end =
+            textarea.selectionEnd === textarea.selectionStart
+              ? textarea.selectionEnd + 1
+              : textarea.selectionEnd;
+          textarea.setRangeText("", start, end);
+          break;
+        
+        case "ArrowLeft":
+          // to-do
+          break;
+          
+          case "ArrowRight":
+          // to-do
+          break;
+        
+        case "ArrowUp":
+          // to-do
+          break;
+        
+        case "ArrowDown":
+          // to-do
+          break;
+
+        case "CapsLock":
+        case "ShiftLeft":
+        case "ShiftRight":
+        case "ControlLeft":
+        case "ControlRight":
+        case "AltLeft":
+        case "AltRight":
+        case "MetaLeft":
+          // nothing is added to textarea
+          break;
+
+        default:
+          textarea.value += this.element.innerHTML;
+          break;
+      }
     });
 
     this.element.addEventListener("mouseup", (event) => {
