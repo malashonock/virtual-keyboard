@@ -7,6 +7,7 @@ export class Key extends EventTarget {
   #altPressed = false;
   #ctrlPressed = false;
   #metaPressed = false;
+  #clicked = false;
 
   constructor(parent, props) {
     super();
@@ -17,9 +18,26 @@ export class Key extends EventTarget {
     this.capsCap = props.capsCap;
     this.shiftCap = props.shiftCap;
 
+    this.#capsLockOn = props.capsLockOn;
+    this.#shiftPressed = props.shiftPressed;
+    this.#altPressed = props.altPressed;
+    this.#ctrlPressed = props.ctrlPressed;
+    this.#metaPressed = props.metaPressed;
+
     this.render();
 
     this.addEventListeners();
+  }
+
+  get clicked() {
+    return this.#clicked;
+  }
+
+  set clicked(value) {
+    if (this.#clicked !== value) {
+      this.#clicked = value;
+      this.element.classList.toggle("clicked", value);
+    }
   }
 
   get capsLockOn() {
@@ -123,7 +141,19 @@ export class Key extends EventTarget {
     });
 
     this.element.addEventListener("mousedown", (event) => {
-      this.element.classList.add("clicked");
+      this.clicked = true;
+
+      if (event.isTrusted) {
+        const event = new KeyboardEvent("keydown", {
+          code: this.code,
+          shiftKey: this.code.match(/Shift/) || this.shiftPressed,
+          altKey: this.code.match(/Alt/) || this.altPressed,
+          ctrlKey: this.code.match(/Control/) || this.ctrlPressed,
+          metaKey: this.code.match(/Meta/) || this.metaPressed,
+        });
+
+        document.dispatchEvent(event);
+      }
 
       const textarea = document.querySelector(".textarea");
       textarea.focus();
@@ -241,7 +271,19 @@ export class Key extends EventTarget {
 
     this.element.addEventListener("mouseup", (event) => {
       if (!(this.code === "CapsLock" && this.capsLockOn)) {
-        this.element.classList.remove("clicked");
+        this.clicked = false;
+      }
+
+      if (event.isTrusted) {
+        const event = new KeyboardEvent("keyup", {
+          code: this.code,
+          shiftKey: !this.code.match(/Shift/) && this.shiftPressed,
+          altKey: !this.code.match(/Alt/) && this.altPressed,
+          ctrlKey: !this.code.match(/Control/) && this.ctrlPressed,
+          metaKey: !this.code.match(/Meta/) && this.metaPressed,
+        });
+
+        document.dispatchEvent(event);
       }
     });
   }

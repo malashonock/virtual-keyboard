@@ -46,6 +46,8 @@ export class Keyboard extends EventTarget {
 
   set shiftPressed(value) {
     if (this.#shiftPressed !== value) {
+      this.updateLayout();
+
       this.#shiftPressed = value;
 
       this.dispatchEvent(
@@ -64,6 +66,8 @@ export class Keyboard extends EventTarget {
 
   set altPressed(value) {
     if (this.#altPressed !== value) {
+      this.updateLayout();
+
       this.#altPressed = value;
 
       this.dispatchEvent(
@@ -117,6 +121,22 @@ export class Keyboard extends EventTarget {
     this.layout = [...keyboardLayouts[this.language]];
   }
 
+  updateLayout() {
+    if (this.shiftPressed && this.altPressed) {
+      this.language = this.language === "en" ? "ru" : "en";
+
+      localStorage.setItem("keyboardLanguage", this.language);
+
+      this.dispatchEvent(
+        new CustomEvent("keyboardLanguageChanged", {
+          detail: this.language,
+        })
+      );
+
+      this.loadLayout().then(() => this.render());
+    }
+  }
+
   render() {
     this.element = new Component({
       classList: ["keyboard"],
@@ -137,6 +157,11 @@ export class Keyboard extends EventTarget {
             cap: key.cap,
             capsCap: key.capsCap,
             shiftCap: key.shiftCap,
+            capsLockOn: this.capsLockOn,
+            shiftPressed: this.shiftPressed,
+            altPressed: this.altPressed,
+            ctrlPressed: this.ctrlPressed,
+            metaPressed: this.metaPressed,
           })
       );
 
@@ -152,56 +177,22 @@ export class Keyboard extends EventTarget {
         event.preventDefault();
       }
 
-      if (event.shiftKey && event.altKey) {
-        this.language = this.language === "en" ? "ru" : "en";
+      this.shiftPressed = event.shiftKey;
+      this.altPressed = event.altKey;
+      this.ctrlPressed = event.ctrlKey;
+      this.metaPressed = event.metaKey;
 
-        localStorage.setItem("keyboardLanguage", this.language);
-
-        this.dispatchEvent(
-          new CustomEvent("keyboardLanguageChanged", {
-            detail: this.language,
-          })
-        );
-
-        this.loadLayout().then(() => this.render());
+      if (event.isTrusted) {
+        const key = this.element.querySelector(`#${event.code}`);
+        key?.dispatchEvent(new MouseEvent("mousedown"));
       }
-
-      if (event.shiftKey) {
-        this.shiftPressed = true;
-      }
-
-      if (event.altKey) {
-        this.altPressed = true;
-      }
-
-      if (event.ctrlKey) {
-        this.ctrlPressed = true;
-      }
-
-      if (event.metaKey) {
-        this.metaPressed = true;
-      }
-
-      const key = this.element.querySelector(`#${event.code}`);
-      key?.dispatchEvent(new MouseEvent("mousedown"));
     });
 
     document.addEventListener("keyup", (event) => {
-      if (this.shiftPressed && !event.shiftKey) {
-        this.shiftPressed = false;
-      }
-
-      if (this.altPressed && !event.altKey) {
-        this.altPressed = false;
-      }
-
-      if (this.ctrlPressed && !event.ctrlKey) {
-        this.ctrlPressed = false;
-      }
-
-      if (this.metaPressed && !event.metaKey) {
-        this.metaPressed = false;
-      }
+      this.shiftPressed = event.shiftKey;
+      this.altPressed = event.altKey;
+      this.ctrlPressed = event.ctrlKey;
+      this.metaPressed = event.metaKey;
 
       switch (event.code) {
         case "CapsLock":
@@ -212,52 +203,9 @@ export class Keyboard extends EventTarget {
           break;
       }
 
-      const key = this.element.querySelector(`#${event.code}`);
-      key?.dispatchEvent(new MouseEvent("mouseup"));
-    });
-
-    document.addEventListener("mousedown", (event) => {
-      if (event.target.id.match(/Shift/)) {
-        this.shiftPressed = true;
-      }
-
-      if (event.target.id.match(/Alt/)) {
-        this.altPressed = true;
-      }
-
-      if (event.target.id.match(/Control/)) {
-        this.ctrlPressed = true;
-      }
-
-      if (event.target.id.match(/Meta/)) {
-        this.metaPressed = true;
-      }
-    });
-
-    document.addEventListener("mouseup", (event) => {
-      if (this.shiftPressed && event.target.id.match(/Shift/)) {
-        this.shiftPressed = false;
-      }
-
-      if (this.altPressed && event.target.id.match(/Alt/)) {
-        this.altPressed = false;
-      }
-
-      if (this.ctrlPressed && event.target.id.match(/Control/)) {
-        this.ctrlPressed = false;
-      }
-
-      if (this.metaPressed && event.target.id.match(/Meta/)) {
-        this.metaPressed = false;
-      }
-
-      switch (event.target.id) {
-        case "CapsLock":
-          this.capsLockOn = !this.capsLockOn;
-          break;
-
-        default:
-          break;
+      if (event.isTrusted) {
+        const key = this.element.querySelector(`#${event.code}`);
+        key?.dispatchEvent(new MouseEvent("mouseup"));
       }
     });
   }
