@@ -83,6 +83,11 @@ export class Key extends EventTarget {
       const textarea = document.querySelector(".textarea");
       textarea.focus();
 
+      const currentStart = textarea.selectionStart;
+      const currentEnd = textarea.selectionEnd;
+      let newStart;
+      let newEnd;
+
       switch (this.code) {
         case "Backspace":
           textarea.value = textarea.value.slice(0, -1);
@@ -91,32 +96,73 @@ export class Key extends EventTarget {
         case "Tab":
           textarea.value += "\t";
           break;
-        
+
         case "Enter":
           textarea.value += "\n";
           break;
 
         case "Delete":
-          const start = textarea.selectionStart;
-          const end =
-            textarea.selectionEnd === textarea.selectionStart
-              ? textarea.selectionEnd + 1
-              : textarea.selectionEnd;
-          textarea.setRangeText("", start, end);
+          newEnd = currentEnd === currentStart ? currentEnd + 1 : currentEnd;
+          textarea.setRangeText("", currentStart, newEnd);
           break;
-        
+
         case "ArrowLeft":
-          // to-do
+          if (!this.shiftPressed) {
+            if (currentEnd === currentStart) {
+              // If no text is selected, move cursor by 1 char to the left
+              textarea.selectionStart = Math.max(0, currentStart - 1);
+            }
+            // Deselect text, if any
+            textarea.selectionEnd = textarea.selectionStart;
+          } else {
+            // Shift is pressed
+            if (
+              textarea.selectionDirection === "forward" &&
+              currentEnd > currentStart
+            ) {
+              // if selection is pointed forward, move selection end to the left
+              newEnd = Math.max(0, currentEnd - 1);
+              textarea.setSelectionRange(currentStart, newEnd, "forward");
+            } else {
+              // if no text is selected, or selection is pointed backwards, move selection start to the left
+              newStart = Math.max(0, currentStart - 1);
+              textarea.setSelectionRange(newStart, currentEnd, "backward");
+            }
+          }
           break;
-          
-          case "ArrowRight":
-          // to-do
+
+        case "ArrowRight":
+          if (!this.shiftPressed) {
+            if (currentEnd === currentStart) {
+              // If no text is selected, move cursor by 1 char to the right
+              textarea.selectionEnd = Math.min(
+                textarea.textLength,
+                currentEnd + 1
+              );
+            }
+            // Deselect text, if any
+            textarea.selectionStart = textarea.selectionEnd;
+          } else {
+            // Shift is pressed
+            if (
+              textarea.selectionDirection === "backward" &&
+              currentEnd > currentStart
+            ) {
+              // if selection is pointed backward, move selection start to the right
+              newStart = Math.min(textarea.textLength, currentStart + 1);
+              textarea.setSelectionRange(newStart, currentEnd, "backward");
+            } else {
+              // if no text is selected, or selection is pointed forward, move selection end to the right
+              newEnd = Math.min(textarea.textLength, currentEnd + 1);
+              textarea.setSelectionRange(currentStart, newEnd, "forward");
+            }
+          }
           break;
-        
+
         case "ArrowUp":
           // to-do
           break;
-        
+
         case "ArrowDown":
           // to-do
           break;
