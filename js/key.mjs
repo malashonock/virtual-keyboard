@@ -130,12 +130,25 @@ export class Key extends EventTarget {
 
       const currentStart = textarea.selectionStart;
       const currentEnd = textarea.selectionEnd;
+
+      const startShiftedBackward = Math.max(0, currentStart - 1);
+      const startShiftedForward = Math.min(
+        textarea.textLength,
+        currentStart + 1
+      );
+
+      const endShiftedBackward = Math.max(0, currentEnd - 1);
+      const endShiftedForward = Math.min(textarea.textLength, currentEnd + 1);
+
       let newStart;
       let newEnd;
 
       switch (this.code) {
         case "Backspace":
-          textarea.value = textarea.value.slice(0, -1);
+          newStart =
+            currentEnd === currentStart ? startShiftedBackward : currentStart;
+          textarea.setRangeText("", newStart, currentEnd);
+          // textarea.value = textarea.value.slice(0, -1);
           break;
 
         case "Tab":
@@ -147,7 +160,7 @@ export class Key extends EventTarget {
           break;
 
         case "Delete":
-          newEnd = currentEnd === currentStart ? currentEnd + 1 : currentEnd;
+          newEnd = currentEnd === currentStart ? endShiftedForward : currentEnd;
           textarea.setRangeText("", currentStart, newEnd);
           break;
 
@@ -166,11 +179,11 @@ export class Key extends EventTarget {
               currentEnd > currentStart
             ) {
               // if selection is pointed forward, move selection end to the left
-              newEnd = Math.max(0, currentEnd - 1);
+              newEnd = endShiftedBackward;
               textarea.setSelectionRange(currentStart, newEnd, "forward");
             } else {
               // if no text is selected, or selection is pointed backwards, move selection start to the left
-              newStart = Math.max(0, currentStart - 1);
+              newStart = startShiftedBackward;
               textarea.setSelectionRange(newStart, currentEnd, "backward");
             }
           }
@@ -180,10 +193,7 @@ export class Key extends EventTarget {
           if (!this.shiftPressed) {
             if (currentEnd === currentStart) {
               // If no text is selected, move cursor by 1 char to the right
-              textarea.selectionEnd = Math.min(
-                textarea.textLength,
-                currentEnd + 1
-              );
+              textarea.selectionEnd = endShiftedForward;
             }
             // Deselect text, if any
             textarea.selectionStart = textarea.selectionEnd;
@@ -194,11 +204,11 @@ export class Key extends EventTarget {
               currentEnd > currentStart
             ) {
               // if selection is pointed backward, move selection start to the right
-              newStart = Math.min(textarea.textLength, currentStart + 1);
+              newStart = startShiftedForward;
               textarea.setSelectionRange(newStart, currentEnd, "backward");
             } else {
               // if no text is selected, or selection is pointed forward, move selection end to the right
-              newEnd = Math.min(textarea.textLength, currentEnd + 1);
+              newEnd = endShiftedForward;
               textarea.setSelectionRange(currentStart, newEnd, "forward");
             }
           }
