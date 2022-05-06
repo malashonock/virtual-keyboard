@@ -214,13 +214,11 @@ export class Key extends EventTarget {
           }
           break;
 
-        case "ArrowUp":
-          // to-do
-          break;
+        // case "ArrowUp":
+        //   break;
 
-        case "ArrowDown":
-          // to-do
-          break;
+        // case "ArrowDown":
+        //   break;
 
         case "CapsLock":
         case "ShiftLeft":
@@ -234,12 +232,7 @@ export class Key extends EventTarget {
           break;
 
         default:
-          if (
-            !this.shiftPressed &&
-            !this.altPressed &&
-            !this.ctrlPressed &&
-            !this.metaPressed
-          ) {
+          if (!this.altPressed && !this.ctrlPressed && !this.metaPressed) {
             textarea.value += this.element.innerHTML;
           }
           break;
