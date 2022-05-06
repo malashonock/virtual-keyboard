@@ -2,8 +2,11 @@ import { Component } from "./utilities.mjs";
 
 export class Key extends EventTarget {
   element = null;
-  #shiftPressed = false;
   #capsLockOn = false;
+  #shiftPressed = false;
+  #altPressed = false;
+  #ctrlPressed = false;
+  #metaPressed = false;
 
   constructor(parent, props) {
     super();
@@ -41,6 +44,36 @@ export class Key extends EventTarget {
     }
   }
 
+  get altPressed() {
+    return this.#altPressed;
+  }
+
+  set altPressed(value) {
+    if (this.#altPressed !== value) {
+      this.#altPressed = value;
+    }
+  }
+
+  get ctrlPressed() {
+    return this.#ctrlPressed;
+  }
+
+  set ctrlPressed(value) {
+    if (this.#ctrlPressed !== value) {
+      this.#ctrlPressed = value;
+    }
+  }
+
+  get metaPressed() {
+    return this.#metaPressed;
+  }
+
+  set metaPressed(value) {
+    if (this.#metaPressed !== value) {
+      this.#metaPressed = value;
+    }
+  }
+
   render() {
     let content;
 
@@ -69,12 +102,24 @@ export class Key extends EventTarget {
   }
 
   addEventListeners() {
+    this.parent.addEventListener("capsLockChanged", (event) => {
+      this.capsLockOn = event.detail.capsLockOn;
+    });
+
     this.parent.addEventListener("shiftChanged", (event) => {
       this.shiftPressed = event.detail.shiftPressed;
     });
 
-    this.parent.addEventListener("capsLockChanged", (event) => {
-      this.capsLockOn = event.detail.capsLockOn;
+    this.parent.addEventListener("altChanged", (event) => {
+      this.altPressed = event.detail.altPressed;
+    });
+
+    this.parent.addEventListener("ctrlChanged", (event) => {
+      this.ctrlPressed = event.detail.ctrlPressed;
+    });
+
+    this.parent.addEventListener("metaChanged", (event) => {
+      this.metaPressed = event.detail.metaPressed;
     });
 
     this.element.addEventListener("mousedown", (event) => {
@@ -179,7 +224,14 @@ export class Key extends EventTarget {
           break;
 
         default:
-          textarea.value += this.element.innerHTML;
+          if (
+            !this.shiftPressed &&
+            !this.altPressed &&
+            !this.ctrlPressed &&
+            !this.metaPressed
+          ) {
+            textarea.value += this.element.innerHTML;
+          }
           break;
       }
     });

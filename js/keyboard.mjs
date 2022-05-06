@@ -7,6 +7,9 @@ export class Keyboard extends EventTarget {
   layout = [];
   #shiftPressed = false;
   #capsLockOn = false;
+  #altPressed = false;
+  #ctrlPressed = false;
+  #metaPressed = false;
 
   constructor(parent) {
     super();
@@ -49,6 +52,60 @@ export class Keyboard extends EventTarget {
         new CustomEvent("shiftChanged", {
           detail: {
             shiftPressed: this.#shiftPressed,
+          },
+        })
+      );
+    }
+  }
+
+  get altPressed() {
+    return this.#altPressed;
+  }
+
+  set altPressed(value) {
+    if (this.#altPressed !== value) {
+      this.#altPressed = value;
+
+      this.dispatchEvent(
+        new CustomEvent("altChanged", {
+          detail: {
+            altPressed: this.#altPressed,
+          },
+        })
+      );
+    }
+  }
+
+  get ctrlPressed() {
+    return this.#ctrlPressed;
+  }
+
+  set ctrlPressed(value) {
+    if (this.#ctrlPressed !== value) {
+      this.#ctrlPressed = value;
+
+      this.dispatchEvent(
+        new CustomEvent("ctrlChanged", {
+          detail: {
+            ctrlPressed: this.#ctrlPressed,
+          },
+        })
+      );
+    }
+  }
+
+  get metaPressed() {
+    return this.#metaPressed;
+  }
+
+  set metaPressed(value) {
+    if (this.#metaPressed !== value) {
+      this.#metaPressed = value;
+
+      this.dispatchEvent(
+        new CustomEvent("metaChanged", {
+          detail: {
+            metaPressed: this.#metaPressed,
           },
         })
       );
@@ -113,6 +170,18 @@ export class Keyboard extends EventTarget {
         this.shiftPressed = true;
       }
 
+      if (event.altKey) {
+        this.altPressed = true;
+      }
+
+      if (event.ctrlKey) {
+        this.ctrlPressed = true;
+      }
+
+      if (event.metaKey) {
+        this.metaPressed = true;
+      }
+
       const key = this.element.querySelector(`#${event.code}`);
       key?.dispatchEvent(new MouseEvent("mousedown"));
     });
@@ -120,6 +189,18 @@ export class Keyboard extends EventTarget {
     document.addEventListener("keyup", (event) => {
       if (this.shiftPressed && !event.shiftKey) {
         this.shiftPressed = false;
+      }
+
+      if (this.altPressed && !event.altKey) {
+        this.altPressed = false;
+      }
+
+      if (this.ctrlPressed && !event.ctrlKey) {
+        this.ctrlPressed = false;
+      }
+
+      if (this.metaPressed && !event.metaKey) {
+        this.metaPressed = false;
       }
 
       switch (event.code) {
@@ -139,11 +220,35 @@ export class Keyboard extends EventTarget {
       if (event.target.id.match(/Shift/)) {
         this.shiftPressed = true;
       }
+
+      if (event.target.id.match(/Alt/)) {
+        this.altPressed = true;
+      }
+
+      if (event.target.id.match(/Control/)) {
+        this.ctrlPressed = true;
+      }
+
+      if (event.target.id.match(/Meta/)) {
+        this.metaPressed = true;
+      }
     });
 
     document.addEventListener("mouseup", (event) => {
       if (this.shiftPressed && event.target.id.match(/Shift/)) {
         this.shiftPressed = false;
+      }
+
+      if (this.altPressed && event.target.id.match(/Alt/)) {
+        this.altPressed = false;
+      }
+
+      if (this.ctrlPressed && event.target.id.match(/Control/)) {
+        this.ctrlPressed = false;
+      }
+
+      if (this.metaPressed && event.target.id.match(/Meta/)) {
+        this.metaPressed = false;
       }
 
       switch (event.target.id) {
