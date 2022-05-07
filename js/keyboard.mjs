@@ -132,9 +132,9 @@ export class Keyboard extends EventTarget {
           detail: this.language,
         })
       );
-    }
 
-    this.render();
+      this.render();
+    }
   }
 
   render() {
@@ -181,6 +181,7 @@ export class Keyboard extends EventTarget {
       for (const row of this.layout) {
         const rowKeys = row.map((keyConfig) => {
           const key = this.keys.find((key) => key.code === keyConfig.code);
+
           key.cap = keyConfig.cap?.hasOwnProperty(this.language)
             ? keyConfig.cap[this.language]
             : keyConfig.cap || keyConfig.cap;
@@ -190,6 +191,12 @@ export class Keyboard extends EventTarget {
           key.shiftCap = keyConfig.shiftCap?.hasOwnProperty(this.language)
             ? keyConfig.shiftCap[this.language]
             : keyConfig.shiftCap || keyConfig.shiftCap;
+          key.capsLockOn = this.capsLockOn;
+          key.shiftPressed = this.shiftPressed;
+          key.altPressed = this.altPressed;
+          key.ctrlPressed = this.ctrlPressed;
+          key.metaPressed = this.metaPressed;
+
           key.render();
         });
       }
@@ -202,10 +209,12 @@ export class Keyboard extends EventTarget {
         event.preventDefault();
       }
 
-      this.shiftPressed = event.shiftKey;
-      this.altPressed = event.altKey;
-      this.ctrlPressed = event.ctrlKey;
-      this.metaPressed = event.metaKey;
+      if (!event.repeat) {
+        this.shiftPressed = event.shiftKey;
+        this.altPressed = event.altKey;
+        this.ctrlPressed = event.ctrlKey;
+        this.metaPressed = event.metaKey;
+      }
 
       if (event.isTrusted) {
         const key = this.element.querySelector(`#${event.code}`);
@@ -214,10 +223,12 @@ export class Keyboard extends EventTarget {
     });
 
     document.addEventListener("keyup", (event) => {
-      this.shiftPressed = event.shiftKey;
-      this.altPressed = event.altKey;
-      this.ctrlPressed = event.ctrlKey;
-      this.metaPressed = event.metaKey;
+      if (!event.repeat) {
+        this.shiftPressed = event.shiftKey;
+        this.altPressed = event.altKey;
+        this.ctrlPressed = event.ctrlKey;
+        this.metaPressed = event.metaKey;
+      }
 
       switch (event.code) {
         case "CapsLock":
