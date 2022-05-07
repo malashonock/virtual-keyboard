@@ -270,6 +270,9 @@ export class Key extends EventTarget {
     });
 
     this.element.addEventListener("mouseup", (event) => {
+      const textarea = document.querySelector(".textarea");
+      textarea.focus();
+
       if (!(this.code === "CapsLock" && this.capsLockOn)) {
         this.clicked = false;
       }
