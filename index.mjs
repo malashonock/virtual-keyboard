@@ -1,3 +1,3 @@
-import { container } from "./js/layout.mjs";
-import { keyboard } from "./js/keyboardFactory.mjs";
-import { textarea } from "./js/textareaFactory.mjs";
+export { container } from "./js/layout.mjs";
+export * as keyboard from "./js/keyboardFactory.mjs";
+export * as textarea from "./js/textareaFactory.mjs";

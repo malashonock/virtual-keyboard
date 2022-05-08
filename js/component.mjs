@@ -1,4 +1,4 @@
-export function Component(props) {
+export default function Component(props) {
   const element = document.createElement(props.tag || "div");
 
   if (props.id) {

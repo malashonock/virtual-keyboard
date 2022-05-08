@@ -1,4 +1,4 @@
-import { Component } from "./utilities.mjs";
+import Component from "./component.mjs";
 
 export const container = new Component({
   classList: ["container"],
@@ -6,14 +6,14 @@ export const container = new Component({
   insertMethod: "prepend",
 });
 
-const header = new Component({
+export const header = new Component({
   tag: "header",
   classList: ["header"],
   innerHTML: "Virtual keyboard",
   parent: container,
 });
 
-const main = new Component({
+export const main = new Component({
   tag: "main",
   classList: ["main"],
   parent: container,
@@ -29,12 +29,12 @@ export const keyboardWrapper = new Component({
   parent: main,
 });
 
-const notes = new Component({
+export const notes = new Component({
   classList: ["notes"],
   parent: main,
 });
 
-const osDisclaimer = new Component({
+export const osDisclaimer = new Component({
   tag: "p",
   classList: ["notes__note"],
   id: "os-disclaimer",
@@ -42,7 +42,7 @@ const osDisclaimer = new Component({
   parent: notes,
 });
 
-const switchLangHotkey = new Component({
+export const switchLangHotkey = new Component({
   tag: "p",
   classList: ["notes__note"],
   id: "switch-lang-hotkey",

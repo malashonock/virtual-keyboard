@@ -1,16 +1,22 @@
-import { Component } from "./utilities.mjs";
-import { loadJsonAsync } from "./loadJsonAsync.mjs";
-import { Key } from "./key.mjs";
+import Component from "./component.mjs";
+import loadJsonAsync from "./loadJsonAsync.mjs";
+import Key from "./key.mjs";
 
-export class Keyboard extends EventTarget {
+export default class Keyboard extends EventTarget {
   element = null;
+
   layout = [];
+
   keys = [];
 
   #shiftPressed = false;
+
   #capsLockOn = false;
+
   #altPressed = false;
+
   #ctrlPressed = false;
+
   #metaPressed = false;
 
   constructor(parent) {
@@ -37,7 +43,7 @@ export class Keyboard extends EventTarget {
           detail: {
             capsLockOn: this.#capsLockOn,
           },
-        })
+        }),
       );
     }
   }
@@ -57,7 +63,7 @@ export class Keyboard extends EventTarget {
           detail: {
             shiftPressed: this.#shiftPressed,
           },
-        })
+        }),
       );
     }
   }
@@ -77,7 +83,7 @@ export class Keyboard extends EventTarget {
           detail: {
             altPressed: this.#altPressed,
           },
-        })
+        }),
       );
     }
   }
@@ -95,7 +101,7 @@ export class Keyboard extends EventTarget {
           detail: {
             ctrlPressed: this.#ctrlPressed,
           },
-        })
+        }),
       );
     }
   }
@@ -113,7 +119,7 @@ export class Keyboard extends EventTarget {
           detail: {
             metaPressed: this.#metaPressed,
           },
-        })
+        }),
       );
     }
   }
@@ -131,7 +137,7 @@ export class Keyboard extends EventTarget {
       this.dispatchEvent(
         new CustomEvent("keyboardLanguageChanged", {
           detail: this.language,
-        })
+        }),
       );
 
       this.render();
@@ -146,42 +152,41 @@ export class Keyboard extends EventTarget {
         insertMethod: "replace",
       });
 
-      for (const row of this.layout) {
+      this.layout.forEach((row) => {
         const rowWrapper = new Component({
           classList: ["keyboard__row"],
           parent: this.element,
         });
 
         const rowKeys = row.map(
-          (keyConfig) =>
-            new Key(this, {
-              code: keyConfig.code,
-              cap: keyConfig.cap?.hasOwnProperty(this.language)
-                ? keyConfig.cap[this.language]
-                : keyConfig.cap || keyConfig.cap,
-              capsCap: keyConfig.capsCap?.hasOwnProperty(this.language)
-                ? keyConfig.capsCap[this.language]
-                : keyConfig.capsCap || keyConfig.capsCap,
-              shiftCap: keyConfig.shiftCap?.hasOwnProperty(this.language)
-                ? keyConfig.shiftCap[this.language]
-                : keyConfig.shiftCap || keyConfig.shiftCap,
-              capsLockOn: this.capsLockOn,
-              shiftPressed: this.shiftPressed,
-              altPressed: this.altPressed,
-              ctrlPressed: this.ctrlPressed,
-              metaPressed: this.metaPressed,
-            })
+          (keyConfig) => new Key(this, {
+            code: keyConfig.code,
+            cap: keyConfig.cap?.hasOwnProperty(this.language)
+              ? keyConfig.cap[this.language]
+              : keyConfig.cap || keyConfig.cap,
+            capsCap: keyConfig.capsCap?.hasOwnProperty(this.language)
+              ? keyConfig.capsCap[this.language]
+              : keyConfig.capsCap || keyConfig.capsCap,
+            shiftCap: keyConfig.shiftCap?.hasOwnProperty(this.language)
+              ? keyConfig.shiftCap[this.language]
+              : keyConfig.shiftCap || keyConfig.shiftCap,
+            capsLockOn: this.capsLockOn,
+            shiftPressed: this.shiftPressed,
+            altPressed: this.altPressed,
+            ctrlPressed: this.ctrlPressed,
+            metaPressed: this.metaPressed,
+          }),
         );
 
-        for (const key of rowKeys) {
+        rowKeys.forEach((key) => {
           rowWrapper.append(key.element);
           this.keys.push(key);
-        }
-      }
+        });
+      });
     } else {
-      for (const row of this.layout) {
-        const rowKeys = row.map((keyConfig) => {
-          const key = this.keys.find((key) => key.code === keyConfig.code);
+      this.layout.forEach((row) => {
+        row.forEach((keyConfig) => {
+          const key = this.keys.find((keyObj) => keyObj.code === keyConfig.code);
 
           key.cap = keyConfig.cap?.hasOwnProperty(this.language)
             ? keyConfig.cap[this.language]
@@ -200,13 +205,13 @@ export class Keyboard extends EventTarget {
 
           key.render();
         });
-      }
+      });
     }
   }
 
   #addEventListeners() {
     document.addEventListener("keydown", (event) => {
-      this.#preventDefaultKeyActions(event);
+      Keyboard.#preventDefaultKeyActions(event);
       this.#syncModifierStates(event);
       this.#emitMouseEvent(event, "mousedown");
     });
@@ -218,7 +223,7 @@ export class Keyboard extends EventTarget {
     });
   }
 
-  #preventDefaultKeyActions(keyboardEvent) {
+  static #preventDefaultKeyActions(keyboardEvent) {
     if (!keyboardEvent.code.match(/F\d{1,2}/)) {
       keyboardEvent.preventDefault();
     }

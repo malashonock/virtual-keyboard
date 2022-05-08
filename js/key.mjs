@@ -1,14 +1,20 @@
-import { Component } from "./utilities.mjs";
+import Component from "./component.mjs";
 
-export class Key extends EventTarget {
+export default class Key extends EventTarget {
   element = null;
+
   #content = "";
+
   #clicked = false;
 
   #capsLockOn = false;
+
   #shiftPressed = false;
+
   #altPressed = false;
+
   #ctrlPressed = false;
+
   #metaPressed = false;
 
   constructor(parent, props) {
@@ -130,34 +136,33 @@ export class Key extends EventTarget {
 
     ["shift", "alt", "ctrl", "meta"].forEach((modifierType) => {
       this.parent.addEventListener(`${modifierType}Changed`, (customEvent) => {
-        this[`${modifierType}Pressed`] =
-          customEvent.detail[`${modifierType}Pressed`];
+        this[`${modifierType}Pressed`] = customEvent.detail[`${modifierType}Pressed`];
       });
     });
 
     this.element.addEventListener("mousedown", (event) => {
-      this.#click(event);
+      this.#click();
       this.#emitKeyDownEvent(event);
     });
 
     this.element.addEventListener("mouseup", (event) => {
-      this.#unclick(event);
+      this.#unclick();
       this.#emitKeyUpEvent(event);
     });
 
     this.element.addEventListener("mouseleave", (event) => {
       if (this.clicked) {
-        this.#unclick(event);
+        this.#unclick();
         this.#emitKeyUpEvent(event);
       }
     });
   }
 
-  #click(event) {
+  #click() {
     this.clicked = true;
   }
 
-  #unclick(event) {
+  #unclick() {
     if (!(this.code === "CapsLock" && this.capsLockOn)) {
       this.clicked = false;
     }

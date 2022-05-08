@@ -1,6 +1,6 @@
-import { Component } from "./utilities.mjs";
+import Component from "./component.mjs";
 
-export class Textarea extends EventTarget {
+export default class Textarea extends EventTarget {
   constructor(parent, keyboard) {
     super();
 
@@ -26,7 +26,6 @@ export class Textarea extends EventTarget {
         parent: this.parent,
         insertMethod: "replace",
       });
-    } else {
     }
   }
 
@@ -35,11 +34,11 @@ export class Textarea extends EventTarget {
       this.#syncTextarea(event);
     });
 
-    this.keyboard.element.addEventListener("mouseup", (event) => {
+    this.keyboard.element.addEventListener("mouseup", () => {
       this.#focus();
     });
 
-    this.keyboard.element.addEventListener("mouseover", (event) => {
+    this.keyboard.element.addEventListener("mouseover", () => {
       this.#focus();
     });
   }
@@ -54,7 +53,7 @@ export class Textarea extends EventTarget {
     }
 
     const keyElement = event.target;
-    const key = this.keyboard.keys.find((key) => key.code === keyElement.id);
+    const key = this.keyboard.keys.find((keyObj) => keyObj.code === keyElement.id);
 
     this.#focus();
 
@@ -64,7 +63,7 @@ export class Textarea extends EventTarget {
     const startShiftedBackward = Math.max(0, currentStart - 1);
     const startShiftedForward = Math.min(
       this.element.textLength,
-      currentStart + 1
+      currentStart + 1,
     );
 
     const endShiftedBackward = Math.max(0, currentEnd - 1);
@@ -75,8 +74,7 @@ export class Textarea extends EventTarget {
 
     switch (key.code) {
       case "Backspace":
-        newStart =
-          currentEnd === currentStart ? startShiftedBackward : currentStart;
+        newStart = currentEnd === currentStart ? startShiftedBackward : currentStart;
         this.element.setRangeText("", newStart, currentEnd);
         // this.element.value = this.element.value.slice(0, -1);
         break;
@@ -102,20 +100,18 @@ export class Textarea extends EventTarget {
           }
           // Deselect text, if any
           this.element.selectionEnd = this.element.selectionStart;
+        } else if (
+          this.element.selectionDirection === "forward"
+          && currentEnd > currentStart
+        ) {
+          // if selection is pointed forward, move selection end to the left
+          newEnd = endShiftedBackward;
+          this.element.setSelectionRange(currentStart, newEnd, "forward");
         } else {
-          // Shift is pressed
-          if (
-            this.element.selectionDirection === "forward" &&
-            currentEnd > currentStart
-          ) {
-            // if selection is pointed forward, move selection end to the left
-            newEnd = endShiftedBackward;
-            this.element.setSelectionRange(currentStart, newEnd, "forward");
-          } else {
-            // if no text is selected, or selection is pointed backwards, move selection start to the left
-            newStart = startShiftedBackward;
-            this.element.setSelectionRange(newStart, currentEnd, "backward");
-          }
+          // if no text is selected, or selection is pointed backwards,
+          // move selection start to the left
+          newStart = startShiftedBackward;
+          this.element.setSelectionRange(newStart, currentEnd, "backward");
         }
         break;
 
@@ -127,28 +123,20 @@ export class Textarea extends EventTarget {
           }
           // Deselect text, if any
           this.element.selectionStart = this.element.selectionEnd;
+        } else if (
+          this.element.selectionDirection === "backward"
+          && currentEnd > currentStart
+        ) {
+          // if selection is pointed backward, move selection start to the right
+          newStart = startShiftedForward;
+          this.element.setSelectionRange(newStart, currentEnd, "backward");
         } else {
-          // Shift is pressed
-          if (
-            this.element.selectionDirection === "backward" &&
-            currentEnd > currentStart
-          ) {
-            // if selection is pointed backward, move selection start to the right
-            newStart = startShiftedForward;
-            this.element.setSelectionRange(newStart, currentEnd, "backward");
-          } else {
-            // if no text is selected, or selection is pointed forward, move selection end to the right
-            newEnd = endShiftedForward;
-            this.element.setSelectionRange(currentStart, newEnd, "forward");
-          }
+          // if no text is selected, or selection is pointed forward,
+          // move selection end to the right
+          newEnd = endShiftedForward;
+          this.element.setSelectionRange(currentStart, newEnd, "forward");
         }
         break;
-
-      // case "ArrowUp":
-      //   break;
-
-      // case "ArrowDown":
-      //   break;
 
       case "CapsLock":
       case "ShiftLeft":
@@ -178,7 +166,7 @@ export class Textarea extends EventTarget {
       text,
       this.element.selectionStart,
       this.element.selectionEnd,
-      "end"
+      "end",
     );
   }
 }
