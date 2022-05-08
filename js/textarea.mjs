@@ -131,11 +131,19 @@ export class Textarea extends EventTarget {
         }
         break;
 
-      // case "ArrowUp":
-      //   break;
+      case "ArrowUp":
+        const arrowUp = document.createElement("div");
+        arrowUp.innerHTML = "&#8593;";
+        this.#insertText(arrowUp.innerHTML);
+        arrowUp.remove();
+        break;
 
-      // case "ArrowDown":
-      //   break;
+      case "ArrowDown":
+        const arrowDown = document.createElement("div");
+        arrowDown.innerHTML = "&#8595;";
+        this.#insertText(arrowDown.innerHTML);
+        arrowDown.remove();
+        break;
 
       case "CapsLock":
       case "ShiftLeft":
@@ -155,15 +163,19 @@ export class Textarea extends EventTarget {
           !keyboardEvent.metaKey
         ) {
           if (keyboardEvent.code.match(/Digit|Key|Arrow/)) {
-            this.element.setRangeText(
-              keyboardEvent.key,
-              currentStart,
-              currentEnd,
-              "end"
-            );
+            this.#insertText(keyboardEvent.key);
           }
         }
         break;
     }
+  }
+
+  #insertText(text) {
+    this.element.setRangeText(
+      text,
+      this.element.selectionStart,
+      this.element.selectionEnd,
+      "end"
+    );
   }
 }
