@@ -2,17 +2,15 @@
   [
     {
       "code": "Backquote",
-      "cap": { 
-        "en": "`", 
-        "ru": "ё" 
+      "cap": {
+        "en": "`",
+        "ru": "ё"
       },
-      "capsCap": { 
-        "en": "`", 
-        "ru": "Ё" 
+      "capsCap": {
+        "ru": "Ё"
       },
-      "shiftCap": { 
-        "en": "~", 
-        "ru": "Ё" 
+      "shiftCap": {
+        "en": "~"
       }
     },
     {
@@ -23,25 +21,25 @@
     {
       "code": "Digit2",
       "cap": "2",
-      "shiftCap": { 
-        "en": "@", 
-        "ru": "\"" 
+      "shiftCap": {
+        "en": "@",
+        "ru": "\""
       }
     },
     {
       "code": "Digit3",
       "cap": "3",
-      "shiftCap": { 
-        "en": "#", 
-        "ru": "№" 
+      "shiftCap": {
+        "en": "#",
+        "ru": "№"
       }
     },
     {
       "code": "Digit4",
       "cap": "4",
-      "shiftCap": { 
-        "en": "$", 
-        "ru": ";" 
+      "shiftCap": {
+        "en": "$",
+        "ru": ";"
       }
     },
     {
@@ -52,17 +50,17 @@
     {
       "code": "Digit6",
       "cap": "6",
-      "shiftCap": { 
-        "en": "^", 
-        "ru": ":" 
+      "shiftCap": {
+        "en": "^",
+        "ru": ":"
       }
     },
     {
       "code": "Digit7",
       "cap": "7",
-      "shiftCap": { 
-        "en": "&", 
-        "ru": "?" 
+      "shiftCap": {
+        "en": "&",
+        "ru": "?"
       }
     },
     {
@@ -102,142 +100,146 @@
     },
     {
       "code": "KeyQ",
-      "cap": { 
-        "en": "q", 
-        "ru": "й" 
+      "cap": {
+        "en": "q",
+        "ru": "й"
       },
-      "capsCap": { 
-        "en": "Q", 
-        "ru": "Й" 
+      "capsCap": {
+        "en": "Q",
+        "ru": "Й"
       }
     },
     {
       "code": "KeyW",
-      "cap": { 
-        "en": "w", 
-        "ru": "ц" 
+      "cap": {
+        "en": "w",
+        "ru": "ц"
       },
-      "capsCap": { 
-        "en": "W", 
-        "ru": "Ц" 
+      "capsCap": {
+        "en": "W",
+        "ru": "Ц"
       }
     },
     {
       "code": "KeyE",
-      "cap": { 
-        "en": "e", 
-        "ru": "у" 
+      "cap": {
+        "en": "e",
+        "ru": "у"
       },
-      "capsCap": { 
-        "en": "E", 
-        "ru": "У" 
+      "capsCap": {
+        "en": "E",
+        "ru": "У"
       }
     },
     {
       "code": "KeyR",
-      "cap": { 
-        "en": "r", 
-        "ru": "к" 
+      "cap": {
+        "en": "r",
+        "ru": "к"
       },
-      "capsCap": { 
-        "en": "R", 
-        "ru": "К" 
+      "capsCap": {
+        "en": "R",
+        "ru": "К"
       }
     },
     {
       "code": "KeyT",
-      "cap": { 
-        "en": "t", 
-        "ru": "е" 
+      "cap": {
+        "en": "t",
+        "ru": "е"
       },
-      "capsCap": { 
-        "en": "T", 
-        "ru": "Е" 
+      "capsCap": {
+        "en": "T",
+        "ru": "Е"
       }
     },
     {
       "code": "KeyY",
-      "cap": { 
-        "en": "y", 
-        "ru": "н" 
+      "cap": {
+        "en": "y",
+        "ru": "н"
       },
-      "capsCap": { 
-        "en": "Y", 
-        "ru": "Н" 
+      "capsCap": {
+        "en": "Y",
+        "ru": "Н"
       }
     },
     {
       "code": "KeyU",
-      "cap": { 
-        "en": "u", 
-        "ru": "г" 
+      "cap": {
+        "en": "u",
+        "ru": "г"
       },
-      "capsCap": { 
-        "en": "U", 
-        "ru": "Г" 
+      "capsCap": {
+        "en": "U",
+        "ru": "Г"
       }
     },
     {
       "code": "KeyI",
-      "cap": { 
-        "en": "i", 
-        "ru": "ш" 
+      "cap": {
+        "en": "i",
+        "ru": "ш"
       },
-      "capsCap": { 
-        "en": "I", 
-        "ru": "Ш" 
+      "capsCap": {
+        "en": "I",
+        "ru": "Ш"
       }
     },
     {
       "code": "KeyO",
-      "cap": { 
-        "en": "o", 
-        "ru": "щ" 
+      "cap": {
+        "en": "o",
+        "ru": "щ"
       },
-      "capsCap": { 
-        "en": "O", 
-        "ru": "Щ" 
+      "capsCap": {
+        "en": "O",
+        "ru": "Щ"
       }
     },
     {
       "code": "KeyP",
-      "cap": { 
-        "en": "p", 
-        "ru": "з" 
+      "cap": {
+        "en": "p",
+        "ru": "з"
       },
-      "capsCap": { 
-        "en": "P", 
-        "ru": "З" 
+      "capsCap": {
+        "en": "P",
+        "ru": "З"
       }
     },
     {
       "code": "BracketLeft",
-      "cap": { 
-        "en": "[", 
-        "ru": "х" 
+      "cap": {
+        "en": "[",
+        "ru": "х"
       },
-      "shiftCap": { 
-        "en": "{", 
-        "ru": "Х" 
+      "capsCap": {
+        "ru": "Х"
+      },
+      "shiftCap": {
+        "en": "{"
       }
     },
     {
       "code": "BracketRight",
-      "cap": { 
-        "en": "]", 
-        "ru": "ъ" 
+      "cap": {
+        "en": "]",
+        "ru": "ъ"
       },
-      "shiftCap": { 
-        "en": "}", 
-        "ru": "Ъ" 
+      "capsCap": {
+        "ru": "Ъ"
+      },
+      "shiftCap": {
+        "en": "}"
       }
     },
     {
       "code": "Backslash",
       "cap": "\\",
-      "shiftCap": { 
-        "en": "|", 
-        "ru": "/" 
+      "shiftCap": {
+        "en": "|",
+        "ru": "/"
       }
     },
     {
@@ -252,123 +254,127 @@
     },
     {
       "code": "KeyA",
-      "cap": { 
-        "en": "a", 
-        "ru": "ф" 
+      "cap": {
+        "en": "a",
+        "ru": "ф"
       },
-      "capsCap": { 
-        "en": "A", 
-        "ru": "Ф" 
+      "capsCap": {
+        "en": "A",
+        "ru": "Ф"
       }
     },
     {
       "code": "KeyS",
-      "cap": { 
-        "en": "s", 
-        "ru": "ы" 
+      "cap": {
+        "en": "s",
+        "ru": "ы"
       },
-      "capsCap": { 
-        "en": "S", 
-        "ru": "Ы" 
+      "capsCap": {
+        "en": "S",
+        "ru": "Ы"
       }
     },
     {
       "code": "KeyD",
-      "cap": { 
-        "en": "d", 
-        "ru": "в" 
+      "cap": {
+        "en": "d",
+        "ru": "в"
       },
-      "capsCap": { 
-        "en": "D", 
-        "ru": "В" 
+      "capsCap": {
+        "en": "D",
+        "ru": "В"
       }
     },
     {
       "code": "KeyF",
-      "cap": { 
-        "en": "f", 
-        "ru": "а" 
+      "cap": {
+        "en": "f",
+        "ru": "а"
       },
-      "capsCap": { 
-        "en": "F", 
-        "ru": "А" 
+      "capsCap": {
+        "en": "F",
+        "ru": "А"
       }
     },
     {
       "code": "KeyG",
-      "cap": { 
-        "en": "g", 
-        "ru": "п" 
+      "cap": {
+        "en": "g",
+        "ru": "п"
       },
-      "capsCap": { 
-        "en": "G", 
-        "ru": "П" 
+      "capsCap": {
+        "en": "G",
+        "ru": "П"
       }
     },
     {
       "code": "KeyH",
-      "cap": { 
-        "en": "h", 
-        "ru": "р" 
+      "cap": {
+        "en": "h",
+        "ru": "р"
       },
-      "capsCap": { 
-        "en": "H", 
-        "ru": "Р" 
+      "capsCap": {
+        "en": "H",
+        "ru": "Р"
       }
     },
     {
       "code": "KeyJ",
-      "cap": { 
-        "en": "j", 
-        "ru": "о" 
+      "cap": {
+        "en": "j",
+        "ru": "о"
       },
-      "capsCap": { 
-        "en": "J", 
-        "ru": "О" 
+      "capsCap": {
+        "en": "J",
+        "ru": "О"
       }
     },
     {
       "code": "KeyK",
-      "cap": { 
-        "en": "k", 
-        "ru": "л" 
+      "cap": {
+        "en": "k",
+        "ru": "л"
       },
-      "capsCap": { 
-        "en": "K", 
-        "ru": "Л" 
+      "capsCap": {
+        "en": "K",
+        "ru": "Л"
       }
     },
     {
       "code": "KeyL",
-      "cap": { 
-        "en": "l", 
-        "ru": "д" 
+      "cap": {
+        "en": "l",
+        "ru": "д"
       },
-      "capsCap": { 
-        "en": "L", 
-        "ru": "Д" 
+      "capsCap": {
+        "en": "L",
+        "ru": "Д"
       }
     },
     {
       "code": "Semicolon",
-      "cap": { 
-        "en": ";", 
-        "ru": "ж" 
+      "cap": {
+        "en": ";",
+        "ru": "ж"
       },
-      "shiftCap": { 
-        "en": ":", 
-        "ru": "Ж" 
+      "capsCap": {
+        "ru": "Ж"
+      },
+      "shiftCap": {
+        "en": ":"
       }
     },
     {
       "code": "Quote",
-      "cap": { 
-        "en": "'", 
-        "ru": "э" 
+      "cap": {
+        "en": "'",
+        "ru": "э"
       },
-      "shiftCap": { 
-        "en": "\"", 
-        "ru": "Э" 
+      "capsCap": {
+        "ru": "Э"
+      },
+      "shiftCap": {
+        "en": "\""
       }
     },
     {
@@ -383,120 +389,116 @@
     },
     {
       "code": "KeyZ",
-      "cap": { 
-        "en": "z", 
-        "ru": "я" 
+      "cap": {
+        "en": "z",
+        "ru": "я"
       },
-      "capsCap": { 
-        "en": "Z", 
-        "ru": "Я" 
+      "capsCap": {
+        "en": "Z",
+        "ru": "Я"
       }
     },
     {
       "code": "KeyX",
-      "cap": { 
-        "en": "x", 
-        "ru": "ч" 
+      "cap": {
+        "en": "x",
+        "ru": "ч"
       },
-      "capsCap": { 
-        "en": "X", 
-        "ru": "Ч" 
+      "capsCap": {
+        "en": "X",
+        "ru": "Ч"
       }
     },
     {
       "code": "KeyC",
-      "cap": { 
-        "en": "c", 
-        "ru": "с" 
+      "cap": {
+        "en": "c",
+        "ru": "с"
       },
-      "capsCap": { 
-        "en": "C", 
-        "ru": "С" 
+      "capsCap": {
+        "en": "C",
+        "ru": "С"
       }
     },
     {
       "code": "KeyV",
-      "cap": { 
-        "en": "v", 
-        "ru": "м" 
+      "cap": {
+        "en": "v",
+        "ru": "м"
       },
-      "capsCap": { 
-        "en": "V", 
-        "ru": "М" 
+      "capsCap": {
+        "en": "V",
+        "ru": "М"
       }
     },
     {
       "code": "KeyB",
-      "cap": { 
-        "en": "b", 
-        "ru": "и" 
+      "cap": {
+        "en": "b",
+        "ru": "и"
       },
-      "capsCap": { 
-        "en": "B", 
-        "ru": "И" 
+      "capsCap": {
+        "en": "B",
+        "ru": "И"
       }
     },
     {
       "code": "KeyN",
-      "cap": { 
-        "en": "n", 
-        "ru": "т" 
+      "cap": {
+        "en": "n",
+        "ru": "т"
       },
-      "capsCap": { 
-        "en": "N", 
-        "ru": "Т" 
+      "capsCap": {
+        "en": "N",
+        "ru": "Т"
       }
     },
     {
       "code": "KeyM",
-      "cap": { 
-        "en": "m", 
-        "ru": "ь" 
+      "cap": {
+        "en": "m",
+        "ru": "ь"
       },
-      "capsCap": { 
-        "en": "M", 
-        "ru": "Ь" 
+      "capsCap": {
+        "en": "M",
+        "ru": "Ь"
       }
     },
     {
       "code": "Comma",
-      "cap": { 
-        "en": ",", 
-        "ru": "б" 
+      "cap": {
+        "en": ",",
+        "ru": "б"
       },
-      "capsCap": { 
-        "en": ",", 
-        "ru": "Б" 
+      "capsCap": {
+        "ru": "Б"
       },
-      "shiftCap": { 
-        "en": "<", 
-        "ru": "Б" 
+      "shiftCap": {
+        "en": "<"
       }
     },
     {
       "code": "Period",
-      "cap": { 
-        "en": ".", 
-        "ru": "ю" 
+      "cap": {
+        "en": ".",
+        "ru": "ю"
       },
-      "capsCap": { 
-        "en": ".", 
-        "ru": "Ю" 
+      "capsCap": {
+        "ru": "Ю"
       },
-      "shiftCap": { 
-        "en": ">", 
-        "ru": "Ю" 
+      "shiftCap": {
+        "en": ">"
       }
     },
     {
       "code": "Slash",
-      "cap": { 
-        "en": "/", 
-        "ru": "." 
+      "cap": {
+        "en": "/",
+        "ru": "."
       },
-      "shiftCap": { 
-        "en": "?", 
-        "ru": "," 
+      "shiftCap": {
+        "en": "?",
+        "ru": ","
       }
     },
     {

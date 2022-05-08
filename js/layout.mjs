@@ -1,52 +1,53 @@
-import Component from "./component.mjs";
+/* eslint-disable import/extensions */
+import Component from './component.mjs';
 
 export const container = new Component({
-  classList: ["container"],
+  classList: ['container'],
   parent: document.body,
-  insertMethod: "prepend",
+  insertMethod: 'prepend',
 });
 
 export const header = new Component({
-  tag: "header",
-  classList: ["header"],
-  innerHTML: "Virtual keyboard",
+  tag: 'header',
+  classList: ['header'],
+  innerHTML: 'Virtual keyboard',
   parent: container,
 });
 
 export const main = new Component({
-  tag: "main",
-  classList: ["main"],
+  tag: 'main',
+  classList: ['main'],
   parent: container,
 });
 
 export const textareaWrapper = new Component({
-  classList: ["textarea-wrapper"],
+  classList: ['textarea-wrapper'],
   parent: main,
 });
 
 export const keyboardWrapper = new Component({
-  classList: ["keyboard-wrapper"],
+  classList: ['keyboard-wrapper'],
   parent: main,
 });
 
 export const notes = new Component({
-  classList: ["notes"],
+  classList: ['notes'],
   parent: main,
 });
 
 export const osDisclaimer = new Component({
-  tag: "p",
-  classList: ["notes__note"],
-  id: "os-disclaimer",
-  innerHTML: "This virtual keyboard was developed on Windows.",
+  tag: 'p',
+  classList: ['notes__note'],
+  id: 'os-disclaimer',
+  innerHTML: 'This virtual keyboard was developed on Windows.',
   parent: notes,
 });
 
 export const switchLangHotkey = new Component({
-  tag: "p",
-  classList: ["notes__note"],
-  id: "switch-lang-hotkey",
+  tag: 'p',
+  classList: ['notes__note'],
+  id: 'switch-lang-hotkey',
   innerHTML:
-    "To switch between English and Russian layouts, press left <strong>Shift + Alt</strong>",
+    'To switch between English and Russian layouts, press left <strong>Shift + Alt</strong>',
   parent: notes,
 });

@@ -1,6 +1,7 @@
-import Component from "./component.mjs";
-import loadJsonAsync from "./loadJsonAsync.mjs";
-import Key from "./key.mjs";
+/* eslint-disable import/extensions */
+import Component from './component.mjs';
+import loadJsonAsync from './loadJsonAsync.mjs';
+import Key from './key.mjs';
 
 export default class Keyboard extends EventTarget {
   element = null;
@@ -22,7 +23,7 @@ export default class Keyboard extends EventTarget {
   constructor(parent) {
     super();
 
-    this.language = localStorage.getItem("keyboardLanguage") || "en";
+    this.language = localStorage.getItem('keyboardLanguage') || 'en';
     this.parent = parent || document.body;
 
     this.loadLayout()
@@ -39,7 +40,7 @@ export default class Keyboard extends EventTarget {
       this.#capsLockOn = value;
 
       this.dispatchEvent(
-        new CustomEvent("capsLockChanged", {
+        new CustomEvent('capsLockChanged', {
           detail: {
             capsLockOn: this.#capsLockOn,
           },
@@ -59,7 +60,7 @@ export default class Keyboard extends EventTarget {
       this.#shiftPressed = value;
 
       this.dispatchEvent(
-        new CustomEvent("shiftChanged", {
+        new CustomEvent('shiftChanged', {
           detail: {
             shiftPressed: this.#shiftPressed,
           },
@@ -79,7 +80,7 @@ export default class Keyboard extends EventTarget {
       this.#altPressed = value;
 
       this.dispatchEvent(
-        new CustomEvent("altChanged", {
+        new CustomEvent('altChanged', {
           detail: {
             altPressed: this.#altPressed,
           },
@@ -97,7 +98,7 @@ export default class Keyboard extends EventTarget {
       this.#ctrlPressed = value;
 
       this.dispatchEvent(
-        new CustomEvent("ctrlChanged", {
+        new CustomEvent('ctrlChanged', {
           detail: {
             ctrlPressed: this.#ctrlPressed,
           },
@@ -115,7 +116,7 @@ export default class Keyboard extends EventTarget {
       this.#metaPressed = value;
 
       this.dispatchEvent(
-        new CustomEvent("metaChanged", {
+        new CustomEvent('metaChanged', {
           detail: {
             metaPressed: this.#metaPressed,
           },
@@ -125,17 +126,17 @@ export default class Keyboard extends EventTarget {
   }
 
   async loadLayout() {
-    this.layout = await loadJsonAsync("keys.json");
+    this.layout = await loadJsonAsync('keys.json');
   }
 
   updateLayout() {
     if (this.shiftPressed && this.altPressed) {
-      this.language = this.language === "en" ? "ru" : "en";
+      this.language = this.language === 'en' ? 'ru' : 'en';
 
-      localStorage.setItem("keyboardLanguage", this.language);
+      localStorage.setItem('keyboardLanguage', this.language);
 
       this.dispatchEvent(
-        new CustomEvent("keyboardLanguageChanged", {
+        new CustomEvent('keyboardLanguageChanged', {
           detail: this.language,
         }),
       );
@@ -147,36 +148,61 @@ export default class Keyboard extends EventTarget {
   render() {
     if (!this.element) {
       this.element = new Component({
-        classList: ["keyboard"],
+        classList: ['keyboard'],
         parent: this.parent,
-        insertMethod: "replace",
+        insertMethod: 'replace',
       });
 
       this.layout.forEach((row) => {
         const rowWrapper = new Component({
-          classList: ["keyboard__row"],
+          classList: ['keyboard__row'],
           parent: this.element,
         });
 
-        const rowKeys = row.map(
-          (keyConfig) => new Key(this, {
+        const rowKeys = row.map((keyConfig) => {
+          let cap;
+          let capsCap;
+          let shiftCap;
+
+          if (
+            Object.prototype.hasOwnProperty.call(keyConfig, 'cap')
+            && Object.prototype.hasOwnProperty.call(keyConfig.cap, this.language)
+          ) {
+            cap = keyConfig.cap[this.language];
+          } else if (typeof keyConfig.cap === 'string') {
+            cap = keyConfig.cap;
+          }
+
+          if (
+            Object.prototype.hasOwnProperty.call(keyConfig, 'capsCap')
+            && Object.prototype.hasOwnProperty.call(keyConfig.capsCap, this.language)
+          ) {
+            capsCap = keyConfig.capsCap[this.language];
+          } else if (typeof keyConfig.capsCap === 'string') {
+            capsCap = keyConfig.capsCap;
+          }
+
+          if (
+            Object.prototype.hasOwnProperty.call(keyConfig, 'shiftCap')
+            && Object.prototype.hasOwnProperty.call(keyConfig.shiftCap, this.language)
+          ) {
+            shiftCap = keyConfig.shiftCap[this.language];
+          } else if (typeof keyConfig.shiftCap === 'string') {
+            shiftCap = keyConfig.shiftCap;
+          }
+
+          return new Key(this, {
             code: keyConfig.code,
-            cap: keyConfig.cap?.hasOwnProperty(this.language)
-              ? keyConfig.cap[this.language]
-              : keyConfig.cap || keyConfig.cap,
-            capsCap: keyConfig.capsCap?.hasOwnProperty(this.language)
-              ? keyConfig.capsCap[this.language]
-              : keyConfig.capsCap || keyConfig.capsCap,
-            shiftCap: keyConfig.shiftCap?.hasOwnProperty(this.language)
-              ? keyConfig.shiftCap[this.language]
-              : keyConfig.shiftCap || keyConfig.shiftCap,
+            cap,
+            capsCap,
+            shiftCap,
             capsLockOn: this.capsLockOn,
             shiftPressed: this.shiftPressed,
             altPressed: this.altPressed,
             ctrlPressed: this.ctrlPressed,
             metaPressed: this.metaPressed,
-          }),
-        );
+          });
+        });
 
         rowKeys.forEach((key) => {
           rowWrapper.append(key.element);
@@ -187,16 +213,40 @@ export default class Keyboard extends EventTarget {
       this.layout.forEach((row) => {
         row.forEach((keyConfig) => {
           const key = this.keys.find((keyObj) => keyObj.code === keyConfig.code);
+          let cap;
+          let capsCap;
+          let shiftCap;
 
-          key.cap = keyConfig.cap?.hasOwnProperty(this.language)
-            ? keyConfig.cap[this.language]
-            : keyConfig.cap || keyConfig.cap;
-          key.capsCap = keyConfig.capsCap?.hasOwnProperty(this.language)
-            ? keyConfig.capsCap[this.language]
-            : keyConfig.capsCap || keyConfig.capsCap;
-          key.shiftCap = keyConfig.shiftCap?.hasOwnProperty(this.language)
-            ? keyConfig.shiftCap[this.language]
-            : keyConfig.shiftCap || keyConfig.shiftCap;
+          if (
+            Object.prototype.hasOwnProperty.call(keyConfig, 'cap')
+            && Object.prototype.hasOwnProperty.call(keyConfig.cap, this.language)
+          ) {
+            cap = keyConfig.cap[this.language];
+          } else if (typeof keyConfig.cap === 'string') {
+            cap = keyConfig.cap;
+          }
+
+          if (
+            Object.prototype.hasOwnProperty.call(keyConfig, 'capsCap')
+            && Object.prototype.hasOwnProperty.call(keyConfig.capsCap, this.language)
+          ) {
+            capsCap = keyConfig.capsCap[this.language];
+          } else if (typeof keyConfig.capsCap === 'string') {
+            capsCap = keyConfig.capsCap;
+          }
+
+          if (
+            Object.prototype.hasOwnProperty.call(keyConfig, 'shiftCap')
+            && Object.prototype.hasOwnProperty.call(keyConfig.shiftCap, this.language)
+          ) {
+            shiftCap = keyConfig.shiftCap[this.language];
+          } else if (typeof keyConfig.shiftCap === 'string') {
+            shiftCap = keyConfig.shiftCap;
+          }
+
+          key.cap = cap;
+          key.capsCap = capsCap;
+          key.shiftCap = shiftCap;
           key.capsLockOn = this.capsLockOn;
           key.shiftPressed = this.shiftPressed;
           key.altPressed = this.altPressed;
@@ -210,16 +260,16 @@ export default class Keyboard extends EventTarget {
   }
 
   #addEventListeners() {
-    document.addEventListener("keydown", (event) => {
+    document.addEventListener('keydown', (event) => {
       Keyboard.#preventDefaultKeyActions(event);
       this.#syncModifierStates(event);
-      this.#emitMouseEvent(event, "mousedown");
+      this.#emitMouseEvent(event, 'mousedown');
     });
 
-    document.addEventListener("keyup", (event) => {
+    document.addEventListener('keyup', (event) => {
       this.#syncModifierStates(event);
       this.#toggleCapsLock(event);
-      this.#emitMouseEvent(event, "mouseup");
+      this.#emitMouseEvent(event, 'mouseup');
     });
   }
 
@@ -239,7 +289,7 @@ export default class Keyboard extends EventTarget {
   }
 
   #toggleCapsLock(keyboardEvent) {
-    if (keyboardEvent.code === "CapsLock") {
+    if (keyboardEvent.code === 'CapsLock') {
       this.capsLockOn = !this.capsLockOn;
     }
   }

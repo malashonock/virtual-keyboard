@@ -1,9 +1,10 @@
-import Component from "./component.mjs";
+/* eslint-disable import/extensions */
+import Component from './component.mjs';
 
 export default class Key extends EventTarget {
   element = null;
 
-  #content = "";
+  #content = '';
 
   #clicked = false;
 
@@ -48,7 +49,7 @@ export default class Key extends EventTarget {
   set clicked(value) {
     if (this.#clicked !== value) {
       this.#clicked = value;
-      this.element.classList.toggle("clicked", value);
+      this.element.classList.toggle('clicked', value);
     }
   }
 
@@ -119,10 +120,10 @@ export default class Key extends EventTarget {
       this.element.innerHTML = this.#content;
     } else {
       this.element = new Component({
-        tag: "button",
+        tag: 'button',
         id: this.code,
-        classList: ["button", "keyboard__key"],
-        attributes: [{ name: "type", value: "button" }],
+        classList: ['button', 'keyboard__key'],
+        attributes: [{ name: 'type', value: 'button' }],
         innerHTML: this.#content,
         parent: this.parent.element,
       });
@@ -130,27 +131,27 @@ export default class Key extends EventTarget {
   }
 
   #addEventListeners() {
-    this.parent.addEventListener("capsLockChanged", (event) => {
+    this.parent.addEventListener('capsLockChanged', (event) => {
       this.capsLockOn = event.detail.capsLockOn;
     });
 
-    ["shift", "alt", "ctrl", "meta"].forEach((modifierType) => {
+    ['shift', 'alt', 'ctrl', 'meta'].forEach((modifierType) => {
       this.parent.addEventListener(`${modifierType}Changed`, (customEvent) => {
         this[`${modifierType}Pressed`] = customEvent.detail[`${modifierType}Pressed`];
       });
     });
 
-    this.element.addEventListener("mousedown", (event) => {
+    this.element.addEventListener('mousedown', (event) => {
       this.#click();
       this.#emitKeyDownEvent(event);
     });
 
-    this.element.addEventListener("mouseup", (event) => {
+    this.element.addEventListener('mouseup', (event) => {
       this.#unclick();
       this.#emitKeyUpEvent(event);
     });
 
-    this.element.addEventListener("mouseleave", (event) => {
+    this.element.addEventListener('mouseleave', (event) => {
       if (this.clicked) {
         this.#unclick();
         this.#emitKeyUpEvent(event);
@@ -163,14 +164,14 @@ export default class Key extends EventTarget {
   }
 
   #unclick() {
-    if (!(this.code === "CapsLock" && this.capsLockOn)) {
+    if (!(this.code === 'CapsLock' && this.capsLockOn)) {
       this.clicked = false;
     }
   }
 
   #emitKeyDownEvent(mouseDownEvent) {
     if (mouseDownEvent.isTrusted) {
-      const keyboardEvent = new KeyboardEvent("keydown", {
+      const keyboardEvent = new KeyboardEvent('keydown', {
         bubbles: true,
         key: this.content,
         code: this.code,
@@ -186,7 +187,7 @@ export default class Key extends EventTarget {
 
   #emitKeyUpEvent(mouseUpEvent) {
     if (mouseUpEvent.isTrusted) {
-      const event = new KeyboardEvent("keyup", {
+      const event = new KeyboardEvent('keyup', {
         bubbles: true,
         key: this.content,
         code: this.code,
