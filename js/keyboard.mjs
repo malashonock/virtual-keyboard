@@ -242,7 +242,8 @@ export class Keyboard extends EventTarget {
   #emitMouseEvent(keyboardEvent, mouseEventType) {
     if (keyboardEvent.isTrusted) {
       const key = this.element.querySelector(`#${keyboardEvent.code}`);
-      key?.dispatchEvent(new MouseEvent(mouseEventType));
+      const event = new MouseEvent(mouseEventType, { bubbles: true });
+      key?.dispatchEvent(event);
     }
   }
 }

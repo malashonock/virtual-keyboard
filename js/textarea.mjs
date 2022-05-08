@@ -1,10 +1,12 @@
 import { Component } from "./utilities.mjs";
 
 export class Textarea extends EventTarget {
-  constructor(parent) {
+  constructor(parent, keyboard) {
     super();
 
     this.parent = parent || document.body;
+
+    this.keyboard = keyboard;
 
     this.render();
     this.#addEventListeners();
@@ -29,20 +31,31 @@ export class Textarea extends EventTarget {
   }
 
   #addEventListeners() {
-    document.addEventListener("keydown", (event) => {
+    this.keyboard.element.addEventListener("mousedown", (event) => {
       this.#syncTextarea(event);
     });
 
-    document.addEventListener("keyup", (event) => {
-      this.#focus(event);
+    this.keyboard.element.addEventListener("mouseup", (event) => {
+      this.#focus();
+    });
+
+    this.keyboard.element.addEventListener("mouseover", (event) => {
+      this.#focus();
     });
   }
 
-  #focus(keyboardEvent) {
+  #focus() {
     this.element.focus();
   }
 
-  #syncTextarea(keyboardEvent) {
+  #syncTextarea(event) {
+    if (!event.target.classList.contains("keyboard__key")) {
+      return;
+    }
+
+    const keyElement = event.target;
+    const key = this.keyboard.keys.find((key) => key.code === keyElement.id);
+
     this.#focus();
 
     const currentStart = this.element.selectionStart;
@@ -60,7 +73,7 @@ export class Textarea extends EventTarget {
     let newStart;
     let newEnd;
 
-    switch (keyboardEvent.code) {
+    switch (key.code) {
       case "Backspace":
         newStart =
           currentEnd === currentStart ? startShiftedBackward : currentStart;
@@ -82,7 +95,7 @@ export class Textarea extends EventTarget {
         break;
 
       case "ArrowLeft":
-        if (!keyboardEvent.shiftKey) {
+        if (!key.shiftPressed) {
           if (currentEnd === currentStart) {
             // If no text is selected, move cursor by 1 char to the left
             this.element.selectionStart = Math.max(0, currentStart - 1);
@@ -107,7 +120,7 @@ export class Textarea extends EventTarget {
         break;
 
       case "ArrowRight":
-        if (!keyboardEvent.shiftKey) {
+        if (!key.shiftPressed) {
           if (currentEnd === currentStart) {
             // If no text is selected, move cursor by 1 char to the right
             this.element.selectionEnd = endShiftedForward;
@@ -131,19 +144,11 @@ export class Textarea extends EventTarget {
         }
         break;
 
-      case "ArrowUp":
-        const arrowUp = document.createElement("div");
-        arrowUp.innerHTML = "&#8593;";
-        this.#insertText(arrowUp.innerHTML);
-        arrowUp.remove();
-        break;
+      // case "ArrowUp":
+      //   break;
 
-      case "ArrowDown":
-        const arrowDown = document.createElement("div");
-        arrowDown.innerHTML = "&#8595;";
-        this.#insertText(arrowDown.innerHTML);
-        arrowDown.remove();
-        break;
+      // case "ArrowDown":
+      //   break;
 
       case "CapsLock":
       case "ShiftLeft":
@@ -161,14 +166,8 @@ export class Textarea extends EventTarget {
         break;
 
       default:
-        if (
-          !keyboardEvent.altKey &&
-          !keyboardEvent.ctrlKey &&
-          !keyboardEvent.metaKey
-        ) {
-          if (keyboardEvent.code.match(/Digit|Key|Arrow/)) {
-            this.#insertText(keyboardEvent.key);
-          }
+        if (!key.altPressed && !key.ctrlPressed && !key.metaPressed) {
+          this.#insertText(keyElement.innerHTML);
         }
         break;
     }
