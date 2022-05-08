@@ -21,7 +21,7 @@ export class Keyboard extends EventTarget {
 
     this.loadLayout()
       .then(() => this.render())
-      .then(() => this.addEventListeners());
+      .then(() => this.#addEventListeners());
   }
 
   get capsLockOn() {
@@ -204,7 +204,7 @@ export class Keyboard extends EventTarget {
     }
   }
 
-  addEventListeners() {
+  #addEventListeners() {
     document.addEventListener("keydown", (event) => {
       this.#preventDefaultKeyActions(event);
       this.#syncModifierStates(event);

@@ -2,6 +2,7 @@ import { Component } from "./utilities.mjs";
 
 export class Key extends EventTarget {
   element = null;
+  #content = "";
   #clicked = false;
 
   #capsLockOn = false;
@@ -27,7 +28,11 @@ export class Key extends EventTarget {
 
     this.render();
 
-    this.addEventListeners();
+    this.#addEventListeners();
+  }
+
+  get content() {
+    return this.element.innerHTML || this.#content;
   }
 
   get clicked() {
@@ -94,33 +99,31 @@ export class Key extends EventTarget {
   }
 
   render() {
-    let content;
-
     if (this.shiftPressed && this.capsLockOn) {
-      content = this.shiftCap || this.cap;
+      this.#content = this.shiftCap || this.cap;
     } else if (this.shiftPressed) {
-      content = this.shiftCap || this.capsCap || this.cap;
+      this.#content = this.shiftCap || this.capsCap || this.cap;
     } else if (this.capsLockOn) {
-      content = this.capsCap || this.cap;
+      this.#content = this.capsCap || this.cap;
     } else {
-      content = this.cap;
+      this.#content = this.cap;
     }
 
     if (this.element) {
-      this.element.innerHTML = content;
+      this.element.innerHTML = this.#content;
     } else {
       this.element = new Component({
         tag: "button",
         id: this.code,
         classList: ["button", "keyboard__key"],
         attributes: [{ name: "type", value: "button" }],
-        innerHTML: content,
+        innerHTML: this.#content,
         parent: this.parent.element,
       });
     }
   }
 
-  addEventListeners() {
+  #addEventListeners() {
     this.parent.addEventListener("capsLockChanged", (event) => {
       this.capsLockOn = event.detail.capsLockOn;
     });
@@ -135,20 +138,17 @@ export class Key extends EventTarget {
     this.element.addEventListener("mousedown", (event) => {
       this.#click(event);
       this.#emitKeyDownEvent(event);
-      this.#syncTextarea(event);
     });
 
     this.element.addEventListener("mouseup", (event) => {
       this.#unclick(event);
       this.#emitKeyUpEvent(event);
-      this.#focusTextarea(event);
     });
 
     this.element.addEventListener("mouseleave", (event) => {
       if (this.clicked) {
         this.#unclick(event);
         this.#emitKeyUpEvent(event);
-        this.#focusTextarea(event);
       }
     });
   }
@@ -166,6 +166,8 @@ export class Key extends EventTarget {
   #emitKeyDownEvent(mouseDownEvent) {
     if (mouseDownEvent.isTrusted) {
       const keyboardEvent = new KeyboardEvent("keydown", {
+        bubbles: true,
+        key: this.content,
         code: this.code,
         shiftKey: this.code.match(/Shift/) || this.shiftPressed,
         altKey: this.code.match(/Alt/) || this.altPressed,
@@ -180,6 +182,8 @@ export class Key extends EventTarget {
   #emitKeyUpEvent(mouseUpEvent) {
     if (mouseUpEvent.isTrusted) {
       const event = new KeyboardEvent("keyup", {
+        bubbles: true,
+        key: this.content,
         code: this.code,
         shiftKey: !this.code.match(/Shift/) && this.shiftPressed,
         altKey: !this.code.match(/Alt/) && this.altPressed,
@@ -188,124 +192,6 @@ export class Key extends EventTarget {
       });
 
       document.dispatchEvent(event);
-    }
-  }
-
-  #focusTextarea(event) {
-    const textarea = document.querySelector(".textarea");
-    textarea.focus();
-  }
-
-  #syncTextarea(event) {
-    const textarea = document.querySelector(".textarea");
-
-    this.#focusTextarea();
-
-    const currentStart = textarea.selectionStart;
-    const currentEnd = textarea.selectionEnd;
-
-    const startShiftedBackward = Math.max(0, currentStart - 1);
-    const startShiftedForward = Math.min(textarea.textLength, currentStart + 1);
-
-    const endShiftedBackward = Math.max(0, currentEnd - 1);
-    const endShiftedForward = Math.min(textarea.textLength, currentEnd + 1);
-
-    let newStart;
-    let newEnd;
-
-    switch (this.code) {
-      case "Backspace":
-        newStart =
-          currentEnd === currentStart ? startShiftedBackward : currentStart;
-        textarea.setRangeText("", newStart, currentEnd);
-        // textarea.value = textarea.value.slice(0, -1);
-        break;
-
-      case "Tab":
-        textarea.value += "\t";
-        break;
-
-      case "Enter":
-        textarea.value += "\n";
-        break;
-
-      case "Delete":
-        newEnd = currentEnd === currentStart ? endShiftedForward : currentEnd;
-        textarea.setRangeText("", currentStart, newEnd);
-        break;
-
-      case "ArrowLeft":
-        if (!this.shiftPressed) {
-          if (currentEnd === currentStart) {
-            // If no text is selected, move cursor by 1 char to the left
-            textarea.selectionStart = Math.max(0, currentStart - 1);
-          }
-          // Deselect text, if any
-          textarea.selectionEnd = textarea.selectionStart;
-        } else {
-          // Shift is pressed
-          if (
-            textarea.selectionDirection === "forward" &&
-            currentEnd > currentStart
-          ) {
-            // if selection is pointed forward, move selection end to the left
-            newEnd = endShiftedBackward;
-            textarea.setSelectionRange(currentStart, newEnd, "forward");
-          } else {
-            // if no text is selected, or selection is pointed backwards, move selection start to the left
-            newStart = startShiftedBackward;
-            textarea.setSelectionRange(newStart, currentEnd, "backward");
-          }
-        }
-        break;
-
-      case "ArrowRight":
-        if (!this.shiftPressed) {
-          if (currentEnd === currentStart) {
-            // If no text is selected, move cursor by 1 char to the right
-            textarea.selectionEnd = endShiftedForward;
-          }
-          // Deselect text, if any
-          textarea.selectionStart = textarea.selectionEnd;
-        } else {
-          // Shift is pressed
-          if (
-            textarea.selectionDirection === "backward" &&
-            currentEnd > currentStart
-          ) {
-            // if selection is pointed backward, move selection start to the right
-            newStart = startShiftedForward;
-            textarea.setSelectionRange(newStart, currentEnd, "backward");
-          } else {
-            // if no text is selected, or selection is pointed forward, move selection end to the right
-            newEnd = endShiftedForward;
-            textarea.setSelectionRange(currentStart, newEnd, "forward");
-          }
-        }
-        break;
-
-      // case "ArrowUp":
-      //   break;
-
-      // case "ArrowDown":
-      //   break;
-
-      case "CapsLock":
-      case "ShiftLeft":
-      case "ShiftRight":
-      case "ControlLeft":
-      case "ControlRight":
-      case "AltLeft":
-      case "AltRight":
-      case "MetaLeft":
-        // nothing is added to textarea
-        break;
-
-      default:
-        if (!this.altPressed && !this.ctrlPressed && !this.metaPressed) {
-          textarea.value += this.element.innerHTML;
-        }
-        break;
     }
   }
 }

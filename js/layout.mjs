@@ -1,5 +1,6 @@
 import { Component } from "./utilities.mjs";
 import { Keyboard } from "./keyboard.mjs";
+import { Textarea } from "./textarea.mjs";
 
 export const container = new Component({
   classList: ["container"],
@@ -20,17 +21,7 @@ const main = new Component({
   parent: container,
 });
 
-const textarea = new Component({
-  tag: "textarea",
-  classList: ["textarea"],
-  attributes: [
-    {
-      name: "rows",
-      value: "5",
-    },
-  ],
-  parent: main,
-});
+const textarea = new Textarea(main);
 
 export const keyboardWrapper = new Component({
   classList: ["keyboard-wrapper"],
