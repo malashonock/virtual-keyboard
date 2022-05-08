@@ -2,12 +2,13 @@ import { Component } from "./utilities.mjs";
 
 export class Key extends EventTarget {
   element = null;
+  #clicked = false;
+
   #capsLockOn = false;
   #shiftPressed = false;
   #altPressed = false;
   #ctrlPressed = false;
   #metaPressed = false;
-  #clicked = false;
 
   constructor(parent, props) {
     super();
@@ -124,170 +125,187 @@ export class Key extends EventTarget {
       this.capsLockOn = event.detail.capsLockOn;
     });
 
-    this.parent.addEventListener("shiftChanged", (event) => {
-      this.shiftPressed = event.detail.shiftPressed;
-    });
-
-    this.parent.addEventListener("altChanged", (event) => {
-      this.altPressed = event.detail.altPressed;
-    });
-
-    this.parent.addEventListener("ctrlChanged", (event) => {
-      this.ctrlPressed = event.detail.ctrlPressed;
-    });
-
-    this.parent.addEventListener("metaChanged", (event) => {
-      this.metaPressed = event.detail.metaPressed;
+    ["shift", "alt", "ctrl", "meta"].forEach((modifierType) => {
+      this.parent.addEventListener(`${modifierType}Changed`, (customEvent) => {
+        this[`${modifierType}Pressed`] =
+          customEvent.detail[`${modifierType}Pressed`];
+      });
     });
 
     this.element.addEventListener("mousedown", (event) => {
-      this.clicked = true;
-
-      if (event.isTrusted) {
-        const event = new KeyboardEvent("keydown", {
-          code: this.code,
-          shiftKey: this.code.match(/Shift/) || this.shiftPressed,
-          altKey: this.code.match(/Alt/) || this.altPressed,
-          ctrlKey: this.code.match(/Control/) || this.ctrlPressed,
-          metaKey: this.code.match(/Meta/) || this.metaPressed,
-        });
-
-        document.dispatchEvent(event);
-      }
-
-      const textarea = document.querySelector(".textarea");
-      textarea.focus();
-
-      const currentStart = textarea.selectionStart;
-      const currentEnd = textarea.selectionEnd;
-
-      const startShiftedBackward = Math.max(0, currentStart - 1);
-      const startShiftedForward = Math.min(
-        textarea.textLength,
-        currentStart + 1
-      );
-
-      const endShiftedBackward = Math.max(0, currentEnd - 1);
-      const endShiftedForward = Math.min(textarea.textLength, currentEnd + 1);
-
-      let newStart;
-      let newEnd;
-
-      switch (this.code) {
-        case "Backspace":
-          newStart =
-            currentEnd === currentStart ? startShiftedBackward : currentStart;
-          textarea.setRangeText("", newStart, currentEnd);
-          // textarea.value = textarea.value.slice(0, -1);
-          break;
-
-        case "Tab":
-          textarea.value += "\t";
-          break;
-
-        case "Enter":
-          textarea.value += "\n";
-          break;
-
-        case "Delete":
-          newEnd = currentEnd === currentStart ? endShiftedForward : currentEnd;
-          textarea.setRangeText("", currentStart, newEnd);
-          break;
-
-        case "ArrowLeft":
-          if (!this.shiftPressed) {
-            if (currentEnd === currentStart) {
-              // If no text is selected, move cursor by 1 char to the left
-              textarea.selectionStart = Math.max(0, currentStart - 1);
-            }
-            // Deselect text, if any
-            textarea.selectionEnd = textarea.selectionStart;
-          } else {
-            // Shift is pressed
-            if (
-              textarea.selectionDirection === "forward" &&
-              currentEnd > currentStart
-            ) {
-              // if selection is pointed forward, move selection end to the left
-              newEnd = endShiftedBackward;
-              textarea.setSelectionRange(currentStart, newEnd, "forward");
-            } else {
-              // if no text is selected, or selection is pointed backwards, move selection start to the left
-              newStart = startShiftedBackward;
-              textarea.setSelectionRange(newStart, currentEnd, "backward");
-            }
-          }
-          break;
-
-        case "ArrowRight":
-          if (!this.shiftPressed) {
-            if (currentEnd === currentStart) {
-              // If no text is selected, move cursor by 1 char to the right
-              textarea.selectionEnd = endShiftedForward;
-            }
-            // Deselect text, if any
-            textarea.selectionStart = textarea.selectionEnd;
-          } else {
-            // Shift is pressed
-            if (
-              textarea.selectionDirection === "backward" &&
-              currentEnd > currentStart
-            ) {
-              // if selection is pointed backward, move selection start to the right
-              newStart = startShiftedForward;
-              textarea.setSelectionRange(newStart, currentEnd, "backward");
-            } else {
-              // if no text is selected, or selection is pointed forward, move selection end to the right
-              newEnd = endShiftedForward;
-              textarea.setSelectionRange(currentStart, newEnd, "forward");
-            }
-          }
-          break;
-
-        // case "ArrowUp":
-        //   break;
-
-        // case "ArrowDown":
-        //   break;
-
-        case "CapsLock":
-        case "ShiftLeft":
-        case "ShiftRight":
-        case "ControlLeft":
-        case "ControlRight":
-        case "AltLeft":
-        case "AltRight":
-        case "MetaLeft":
-          // nothing is added to textarea
-          break;
-
-        default:
-          if (!this.altPressed && !this.ctrlPressed && !this.metaPressed) {
-            textarea.value += this.element.innerHTML;
-          }
-          break;
-      }
+      this.#click(event);
+      this.#emitKeyDownEvent(event);
+      this.#syncTextarea(event);
     });
 
     this.element.addEventListener("mouseup", (event) => {
-      const textarea = document.querySelector(".textarea");
-      textarea.focus();
+      this.#unclick(event);
+      this.#emitKeyUpEvent(event);
+      this.#focusTextarea(event);
+    });
 
-      if (!(this.code === "CapsLock" && this.capsLockOn)) {
-        this.clicked = false;
-      }
-
-      if (event.isTrusted) {
-        const event = new KeyboardEvent("keyup", {
-          code: this.code,
-          shiftKey: !this.code.match(/Shift/) && this.shiftPressed,
-          altKey: !this.code.match(/Alt/) && this.altPressed,
-          ctrlKey: !this.code.match(/Control/) && this.ctrlPressed,
-          metaKey: !this.code.match(/Meta/) && this.metaPressed,
-        });
-
-        document.dispatchEvent(event);
+    this.element.addEventListener("mouseleave", (event) => {
+      if (this.clicked) {
+        this.#unclick(event);
+        this.#emitKeyUpEvent(event);
+        this.#focusTextarea(event);
       }
     });
+  }
+
+  #click(event) {
+    this.clicked = true;
+  }
+
+  #unclick(event) {
+    if (!(this.code === "CapsLock" && this.capsLockOn)) {
+      this.clicked = false;
+    }
+  }
+
+  #emitKeyDownEvent(mouseDownEvent) {
+    if (mouseDownEvent.isTrusted) {
+      const keyboardEvent = new KeyboardEvent("keydown", {
+        code: this.code,
+        shiftKey: this.code.match(/Shift/) || this.shiftPressed,
+        altKey: this.code.match(/Alt/) || this.altPressed,
+        ctrlKey: this.code.match(/Control/) || this.ctrlPressed,
+        metaKey: this.code.match(/Meta/) || this.metaPressed,
+      });
+
+      document.dispatchEvent(keyboardEvent);
+    }
+  }
+
+  #emitKeyUpEvent(mouseUpEvent) {
+    if (mouseUpEvent.isTrusted) {
+      const event = new KeyboardEvent("keyup", {
+        code: this.code,
+        shiftKey: !this.code.match(/Shift/) && this.shiftPressed,
+        altKey: !this.code.match(/Alt/) && this.altPressed,
+        ctrlKey: !this.code.match(/Control/) && this.ctrlPressed,
+        metaKey: !this.code.match(/Meta/) && this.metaPressed,
+      });
+
+      document.dispatchEvent(event);
+    }
+  }
+
+  #focusTextarea(event) {
+    const textarea = document.querySelector(".textarea");
+    textarea.focus();
+  }
+
+  #syncTextarea(event) {
+    const textarea = document.querySelector(".textarea");
+
+    this.#focusTextarea();
+
+    const currentStart = textarea.selectionStart;
+    const currentEnd = textarea.selectionEnd;
+
+    const startShiftedBackward = Math.max(0, currentStart - 1);
+    const startShiftedForward = Math.min(textarea.textLength, currentStart + 1);
+
+    const endShiftedBackward = Math.max(0, currentEnd - 1);
+    const endShiftedForward = Math.min(textarea.textLength, currentEnd + 1);
+
+    let newStart;
+    let newEnd;
+
+    switch (this.code) {
+      case "Backspace":
+        newStart =
+          currentEnd === currentStart ? startShiftedBackward : currentStart;
+        textarea.setRangeText("", newStart, currentEnd);
+        // textarea.value = textarea.value.slice(0, -1);
+        break;
+
+      case "Tab":
+        textarea.value += "\t";
+        break;
+
+      case "Enter":
+        textarea.value += "\n";
+        break;
+
+      case "Delete":
+        newEnd = currentEnd === currentStart ? endShiftedForward : currentEnd;
+        textarea.setRangeText("", currentStart, newEnd);
+        break;
+
+      case "ArrowLeft":
+        if (!this.shiftPressed) {
+          if (currentEnd === currentStart) {
+            // If no text is selected, move cursor by 1 char to the left
+            textarea.selectionStart = Math.max(0, currentStart - 1);
+          }
+          // Deselect text, if any
+          textarea.selectionEnd = textarea.selectionStart;
+        } else {
+          // Shift is pressed
+          if (
+            textarea.selectionDirection === "forward" &&
+            currentEnd > currentStart
+          ) {
+            // if selection is pointed forward, move selection end to the left
+            newEnd = endShiftedBackward;
+            textarea.setSelectionRange(currentStart, newEnd, "forward");
+          } else {
+            // if no text is selected, or selection is pointed backwards, move selection start to the left
+            newStart = startShiftedBackward;
+            textarea.setSelectionRange(newStart, currentEnd, "backward");
+          }
+        }
+        break;
+
+      case "ArrowRight":
+        if (!this.shiftPressed) {
+          if (currentEnd === currentStart) {
+            // If no text is selected, move cursor by 1 char to the right
+            textarea.selectionEnd = endShiftedForward;
+          }
+          // Deselect text, if any
+          textarea.selectionStart = textarea.selectionEnd;
+        } else {
+          // Shift is pressed
+          if (
+            textarea.selectionDirection === "backward" &&
+            currentEnd > currentStart
+          ) {
+            // if selection is pointed backward, move selection start to the right
+            newStart = startShiftedForward;
+            textarea.setSelectionRange(newStart, currentEnd, "backward");
+          } else {
+            // if no text is selected, or selection is pointed forward, move selection end to the right
+            newEnd = endShiftedForward;
+            textarea.setSelectionRange(currentStart, newEnd, "forward");
+          }
+        }
+        break;
+
+      // case "ArrowUp":
+      //   break;
+
+      // case "ArrowDown":
+      //   break;
+
+      case "CapsLock":
+      case "ShiftLeft":
+      case "ShiftRight":
+      case "ControlLeft":
+      case "ControlRight":
+      case "AltLeft":
+      case "AltRight":
+      case "MetaLeft":
+        // nothing is added to textarea
+        break;
+
+      default:
+        if (!this.altPressed && !this.ctrlPressed && !this.metaPressed) {
+          textarea.value += this.element.innerHTML;
+        }
+        break;
+    }
   }
 }

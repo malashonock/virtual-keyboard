@@ -6,6 +6,7 @@ export class Keyboard extends EventTarget {
   element = null;
   layout = [];
   keys = [];
+
   #shiftPressed = false;
   #capsLockOn = false;
   #altPressed = false;
@@ -205,44 +206,43 @@ export class Keyboard extends EventTarget {
 
   addEventListeners() {
     document.addEventListener("keydown", (event) => {
-      if (!event.code.match(/F\d{1,2}/)) {
-        event.preventDefault();
-      }
-
-      if (!event.repeat) {
-        this.shiftPressed = event.shiftKey;
-        this.altPressed = event.altKey;
-        this.ctrlPressed = event.ctrlKey;
-        this.metaPressed = event.metaKey;
-      }
-
-      if (event.isTrusted) {
-        const key = this.element.querySelector(`#${event.code}`);
-        key?.dispatchEvent(new MouseEvent("mousedown"));
-      }
+      this.#preventDefaultKeyActions(event);
+      this.#syncModifierStates(event);
+      this.#emitMouseEvent(event, "mousedown");
     });
 
     document.addEventListener("keyup", (event) => {
-      if (!event.repeat) {
-        this.shiftPressed = event.shiftKey;
-        this.altPressed = event.altKey;
-        this.ctrlPressed = event.ctrlKey;
-        this.metaPressed = event.metaKey;
-      }
-
-      switch (event.code) {
-        case "CapsLock":
-          this.capsLockOn = !this.capsLockOn;
-          break;
-
-        default:
-          break;
-      }
-
-      if (event.isTrusted) {
-        const key = this.element.querySelector(`#${event.code}`);
-        key?.dispatchEvent(new MouseEvent("mouseup"));
-      }
+      this.#syncModifierStates(event);
+      this.#toggleCapsLock(event);
+      this.#emitMouseEvent(event, "mouseup");
     });
+  }
+
+  #preventDefaultKeyActions(keyboardEvent) {
+    if (!keyboardEvent.code.match(/F\d{1,2}/)) {
+      keyboardEvent.preventDefault();
+    }
+  }
+
+  #syncModifierStates(keyboardEvent) {
+    if (!keyboardEvent.repeat) {
+      this.shiftPressed = keyboardEvent.shiftKey;
+      this.altPressed = keyboardEvent.altKey;
+      this.ctrlPressed = keyboardEvent.ctrlKey;
+      this.metaPressed = keyboardEvent.metaKey;
+    }
+  }
+
+  #toggleCapsLock(keyboardEvent) {
+    if (keyboardEvent.code === "CapsLock") {
+      this.capsLockOn = !this.capsLockOn;
+    }
+  }
+
+  #emitMouseEvent(keyboardEvent, mouseEventType) {
+    if (keyboardEvent.isTrusted) {
+      const key = this.element.querySelector(`#${keyboardEvent.code}`);
+      key?.dispatchEvent(new MouseEvent(mouseEventType));
+    }
   }
 }
