@@ -69,11 +69,11 @@ export class Textarea extends EventTarget {
         break;
 
       case "Tab":
-        this.element.value += "\t";
+        this.#insertText("\t");
         break;
 
       case "Enter":
-        this.element.value += "\n";
+        this.#insertText("\n");
         break;
 
       case "Delete":
@@ -154,6 +154,10 @@ export class Textarea extends EventTarget {
       case "AltRight":
       case "MetaLeft":
         // nothing is added to textarea
+        break;
+
+      case "Space":
+        this.#insertText(" ");
         break;
 
       default:
