@@ -155,7 +155,12 @@ export class Textarea extends EventTarget {
           !keyboardEvent.metaKey
         ) {
           if (keyboardEvent.code.match(/Digit|Key|Arrow/)) {
-            this.element.value += keyboardEvent.key;
+            this.element.setRangeText(
+              keyboardEvent.key,
+              currentStart,
+              currentEnd,
+              "end"
+            );
           }
         }
         break;
